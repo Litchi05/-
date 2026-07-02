@@ -228,7 +228,7 @@
     border: 1px solid var(--border); overflow: hidden;
     transition: transform .35s, border-color .35s;
   }
-  .vcard:hover { transform: translateY(-6px); border-color: var(--red); }
+  .vcard:hover { transform: translateY(-6px) scale(1.015); border-color: var(--red); box-shadow: 0 20px 44px -14px rgba(0,0,0,.6); }
   .vthumb { position: relative; aspect-ratio: 9/16; overflow: hidden; background: #0b0b0d; }
   .vthumb.land { aspect-ratio: 16/9; }
   .vthumb video, .vthumb .vposter { width: 100%; height: 100%; object-fit: cover; pointer-events: none; filter: brightness(.8) saturate(.88); transition: filter .35s; }
@@ -247,8 +247,20 @@
     display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.4); backdrop-filter: blur(4px);
   }
   .vplay-circle svg { margin-left: 3px; }
+  .vduration {
+    position: absolute; bottom: 10px; right: 10px; z-index: 3;
+    background: rgba(0,0,0,.65); backdrop-filter: blur(3px);
+    color: #f1e9df; font-size: 11px; letter-spacing: .03em;
+    padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(255,255,255,.15);
+    font-variant-numeric: tabular-nums;
+  }
   .vlabel { padding: 15px 17px; border-top: 1px solid var(--border); }
   .vname { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .vtag {
+    display: block; width: fit-content; margin-top: 8px; font-size: 10.5px; letter-spacing: .05em;
+    color: var(--gold-dim); border: 1px solid rgba(201,169,106,.35); border-radius: 20px;
+    padding: 2px 10px; background: rgba(201,169,106,.07);
+  }
 
   .vcard-soon { cursor: default; }
   .vcard-soon:hover { transform: none; border-color: var(--border); }
@@ -591,10 +603,10 @@
     <h1 class="serif">林<em>怡杰</em></h1>
     <p class="hero-tagline">影视制作专业出身，4 年拍摄经验，深耕品牌视觉内容创作。<br>独立完成品牌宣传片、产品发布会、信息流短视频从拍摄到后期剪辑的全流程交付。</p>
     <div class="hero-metrics">
-      <div class="hmetric"><span class="hm-num serif">300<i>+</i></span><span class="hm-label">信息流短视频交付</span></div>
-      <div class="hmetric"><span class="hm-num serif">50<i>+</i></span><span class="hm-label">企业家访谈拍摄</span></div>
-      <div class="hmetric"><span class="hm-num serif">20<i>%+</i></span><span class="hm-label">完播率提升</span></div>
-      <div class="hmetric"><span class="hm-num serif">0</span><span class="hm-label">直播播出事故</span></div>
+      <div class="hmetric"><span class="hm-num serif"><span class="count-num" data-count="300">0</span><i>+</i></span><span class="hm-label">信息流短视频交付</span></div>
+      <div class="hmetric"><span class="hm-num serif"><span class="count-num" data-count="50">0</span><i>+</i></span><span class="hm-label">企业家访谈拍摄</span></div>
+      <div class="hmetric"><span class="hm-num serif"><span class="count-num" data-count="20">0</span><i>%+</i></span><span class="hm-label">完播率提升</span></div>
+      <div class="hmetric"><span class="hm-num serif"><span class="count-num" data-count="0">0</span></span><span class="hm-label">直播播出事故</span></div>
     </div>
     <div class="hero-actions">
       <a class="btn-primary" href="#works">浏览作品 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -703,28 +715,28 @@
       </div>
       <div class="vgrid">
         <div class="vcard" data-video="信息流_防脱发膜.mp4" data-poster="posters/info-famo.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/info-famo.jpg" alt="防脱发膜信息流广告" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">防脱发膜 · 痛点场景口播</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/info-famo.jpg" alt="防脱发膜信息流广告" loading="lazy"><span class="vduration">0:46</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">防脱发膜 · 痛点场景口播<span class="vtag">痛点场景 · 3秒钩子</span></div></div>
         </div>
         <div class="vcard" data-video="信息流_笛梵洗发水.mp4" data-poster="posters/info-difan.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/info-difan.jpg" alt="笛梵洗发水信息流广告" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">笛梵洗发水 · 达人口播代言</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/info-difan.jpg" alt="笛梵洗发水信息流广告" loading="lazy"><span class="vduration">0:23</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">笛梵洗发水 · 达人口播代言<span class="vtag">达人代言</span></div></div>
         </div>
         <div class="vcard" data-video="信息流_护发口播.mp4" data-poster="posters/info-hufa-kouzhi.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/info-hufa-kouzhi.jpg" alt="护发产品信息流广告" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">护发产品 · 黄金3秒钩子口播</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/info-hufa-kouzhi.jpg" alt="护发产品信息流广告" loading="lazy"><span class="vduration">0:38</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">护发产品 · 黄金3秒钩子口播<span class="vtag">反转钩子</span></div></div>
         </div>
         <div class="vcard" data-video="信息流_洗衣色母片.mp4" data-poster="posters/info-semupian.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/info-semupian.jpg" alt="洗衣色母片信息流广告" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">洗衣色母片 · 产品实测演示</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/info-semupian.jpg" alt="洗衣色母片信息流广告" loading="lazy"><span class="vduration">0:21</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">洗衣色母片 · 产品实测演示<span class="vtag">产品实测</span></div></div>
         </div>
-        <div class="vcard" data-video="信息流_洗烘一体演示.mp4" data-poster="posters/info-honggan.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/info-honggan.jpg" alt="洗烘一体机信息流广告" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">洗烘一体机 · 生活场景演示</div></div>
+        <div class="vcard" data-video="信息流_笛梵发膜质地.mp4" data-poster="posters/info-difan-famo.jpg" data-orient="portrait" onclick="openModal(this)">
+          <div class="vthumb"><img class="vposter" src="posters/info-difan-famo.jpg" alt="笛梵蜗牛发膜质地展示" loading="lazy"><span class="vduration">0:14</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">笛梵蜗牛发膜 · 产品质地特写<span class="vtag">产品特写微距</span></div></div>
         </div>
-        <div class="vcard" data-video="信息流_双肩包展示.mp4" data-poster="posters/info-shuangjianbao.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/info-shuangjianbao.jpg" alt="双肩包信息流广告" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">双肩包 · 场景化产品展示</div></div>
+        <div class="vcard" data-video="信息流_发膜种草口播.mp4" data-poster="posters/info-hufa-zhongcao.jpg" data-orient="portrait" onclick="openModal(this)">
+          <div class="vthumb"><img class="vposter" src="posters/info-hufa-zhongcao.jpg" alt="发膜种草反转口播" loading="lazy"><span class="vduration">0:44</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">发膜种草 · 反转叙事口播<span class="vtag">叙事反转</span></div></div>
         </div>
       </div>
     </div>
@@ -740,28 +752,28 @@
       </div>
       <div class="vgrid">
         <div class="vcard" data-video="产品营销.mp4" data-poster="posters/chanpin-yingxiao.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/chanpin-yingxiao.jpg" alt="小黑条产品营销片" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">小黑条 · 产品营销片</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/chanpin-yingxiao.jpg" alt="小黑条产品营销片" loading="lazy"><span class="vduration">0:15</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">小黑条 · 产品营销片<span class="vtag">产品摄影</span></div></div>
         </div>
         <div class="vcard" data-video="品牌宣传片.mp4" data-poster="posters/pinpai-xuanchuanpian.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/pinpai-xuanchuanpian.jpg" alt="品牌宣传片" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">品牌宣传片 · 交通枢纽引爆声浪</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/pinpai-xuanchuanpian.jpg" alt="品牌宣传片" loading="lazy"><span class="vduration">0:29</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">品牌宣传片 · 交通枢纽引爆声浪<span class="vtag">媒体背书剪辑</span></div></div>
         </div>
         <div class="vcard" data-video="小黑条日常营销视频.mp4" data-poster="posters/xiaoheitiao-richang.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/xiaoheitiao-richang.jpg" alt="小黑条日常营销视频" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">小黑条 · 日常营销视频</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/xiaoheitiao-richang.jpg" alt="小黑条日常营销视频" loading="lazy"><span class="vduration">0:25</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">小黑条 · 日常营销视频<span class="vtag">生活场景</span></div></div>
         </div>
         <div class="vcard" data-video="摩可多营销视频.mp4" data-poster="posters/mokeduo-yingxiao.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/mokeduo-yingxiao.jpg" alt="摩可多品牌营销视频" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">摩可多 · 让健康管理成为艺术</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/mokeduo-yingxiao.jpg" alt="摩可多品牌营销视频" loading="lazy"><span class="vduration">0:22</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">摩可多 · 让健康管理成为艺术<span class="vtag">品牌形象大片</span></div></div>
         </div>
         <div class="vcard" data-video="品牌推广快闪.mp4" data-poster="posters/pinpai-tuiguang-kuaishan.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/pinpai-tuiguang-kuaishan.jpg" alt="品牌推广快闪片" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">品牌推广 · 快闪宣传片</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/pinpai-tuiguang-kuaishan.jpg" alt="品牌推广快闪片" loading="lazy"><span class="vduration">0:29</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">品牌推广 · 快闪宣传片<span class="vtag">户外广告+达人</span></div></div>
         </div>
         <div class="vcard" data-video="摩可多门店介绍视频.mp4" data-poster="posters/mokeduo-mendian.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/mokeduo-mendian.jpg" alt="摩可多门店介绍视频" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">摩可多 · 精准营养瘦身中心门店介绍</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/mokeduo-mendian.jpg" alt="摩可多门店介绍视频" loading="lazy"><span class="vduration">0:28</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">摩可多 · 精准营养瘦身中心门店介绍<span class="vtag">实景探店</span></div></div>
         </div>
       </div>
     </div>
@@ -777,20 +789,20 @@
       </div>
       <div class="vgrid">
         <div class="vcard" data-video="会议活动.mp4" data-poster="posters/huiyi-huodong-1.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/huiyi-huodong-1.jpg" alt="企业战略会议现场纪实" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">企业战略会议 · 现场纪实</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/huiyi-huodong-1.jpg" alt="企业战略会议现场纪实" loading="lazy"><span class="vduration">0:26</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">企业战略会议 · 现场纪实<span class="vtag">多机位导摄</span></div></div>
         </div>
         <div class="vcard" data-video="会议活动 (2).mp4" data-poster="posters/huiyi-huodong-2.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/huiyi-huodong-2.jpg" alt="企业会议活动纪实二" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">企业会议 · 多机位导摄</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/huiyi-huodong-2.jpg" alt="企业会议活动纪实二" loading="lazy"><span class="vduration">0:17</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">企业会议 · 多机位导摄<span class="vtag">多机位导摄</span></div></div>
         </div>
         <div class="vcard" data-video="会议活动 (3).mp4" data-poster="posters/huiyi-huodong-3.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/huiyi-huodong-3.jpg" alt="企业会议活动纪实三" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">企业会议 · 现场氛围记录</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/huiyi-huodong-3.jpg" alt="企业会议活动纪实三" loading="lazy"><span class="vduration">0:22</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">企业会议 · 现场氛围记录<span class="vtag">多机位导摄</span></div></div>
         </div>
         <div class="vcard" data-video="摩可多战略会议快闪.mp4" data-poster="posters/mokeduo-zhanlvehuiyi.jpg" data-orient="landscape" onclick="openModal(this)">
-          <div class="vthumb land"><img class="vposter" src="posters/mokeduo-zhanlvehuiyi.jpg" alt="摩可多双翼齐飞战略会议快闪" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">摩可多 · 双翼齐飞战略会议快闪</div></div>
+          <div class="vthumb land"><img class="vposter" src="posters/mokeduo-zhanlvehuiyi.jpg" alt="摩可多双翼齐飞战略会议快闪" loading="lazy"><span class="vduration">0:30</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">摩可多 · 双翼齐飞战略会议快闪<span class="vtag">快闪剪辑</span></div></div>
         </div>
       </div>
     </div>
@@ -806,16 +818,16 @@
       </div>
       <div class="vgrid">
         <div class="vcard" data-video="希卡贝尔李冰冰（加签名）4.23.MP4" data-poster="posters/cicabel-libingbing.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/cicabel-libingbing.jpg" alt="希卡贝尔国际影星李冰冰代言" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">CICABEL希卡贝尔 · 李冰冰代言片</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/cicabel-libingbing.jpg" alt="希卡贝尔国际影星李冰冰代言" loading="lazy"><span class="vduration">0:08</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">CICABEL希卡贝尔 · 李冰冰代言片<span class="vtag">明星代言片</span></div></div>
         </div>
         <div class="vcard" data-video="明星VLOG.mp4" data-poster="posters/mingxing-vlog.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/mingxing-vlog.jpg" alt="明星探店Vlog" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">明星探店 · Vlog种草</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/mingxing-vlog.jpg" alt="明星探店Vlog" loading="lazy"><span class="vduration">0:41</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">明星探店 · Vlog种草<span class="vtag">探店Vlog</span></div></div>
         </div>
         <div class="vcard" data-video="海外网红营销视频.mp4" data-poster="posters/haiwai-wanghong.jpg" data-orient="portrait" onclick="openModal(this)">
-          <div class="vthumb"><img class="vposter" src="posters/haiwai-wanghong.jpg" alt="海外网红营销视频" loading="lazy"><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
-          <div class="vlabel"><div class="vname">海外网红 · KOL营销视频</div></div>
+          <div class="vthumb"><img class="vposter" src="posters/haiwai-wanghong.jpg" alt="海外网红营销视频" loading="lazy"><span class="vduration">0:26</span><div class="vplay"><div class="vplay-circle"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="vlabel"><div class="vname">海外网红 · KOL营销视频<span class="vtag">海外KOL</span></div></div>
         </div>
       </div>
     </div>
@@ -1005,6 +1017,25 @@
     entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal, .series, .sec-head').forEach(el => io.observe(el));
+
+  // Animated counters for hero metrics
+  const countIo = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      countIo.unobserve(en.target);
+      const target = parseInt(en.target.dataset.count, 10) || 0;
+      const dur = 1400;
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        en.target.textContent = Math.round(eased * target);
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.count-num').forEach(el => countIo.observe(el));
 </script>
 </body>
 </html>
