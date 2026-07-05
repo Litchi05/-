@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;background:#0b0a09;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;background:#0b0a09;font-family:"WenQuanYi Zen Hei",sans-serif}
+/* 黑胶纹理背景 */
+#vinyl{
+  position:absolute;left:50%;top:50%;width:2400px;height:2400px;
+  margin-left:-1200px;margin-top:-1200px;border-radius:50%;
+  background:repeating-radial-gradient(circle at center,
+    #0b0a09 0px,#0b0a09 6px,#14120f 7px,#0b0a09 9px);
+  opacity:0;
+}
+#vinyl::after{
+  content:"";position:absolute;left:50%;top:50%;width:220px;height:220px;
+  margin-left:-110px;margin-top:-110px;border-radius:50%;
+  background:#1a0b0a;border:3px solid #2a1512;
+}
+/* 第一句 */
+#a{position:absolute;left:0;right:0;top:46%;text-align:center;opacity:0}
+#a .t{font-size:86px;color:#eae6df;letter-spacing:14px;font-weight:400}
+#a .line{width:0px;height:4px;background:#e0362c;margin:44px auto 0}
+/* 第二句 */
+#b{position:absolute;left:0;right:0;top:44%;text-align:center;opacity:0}
+#b .t{font-size:128px;color:#eae6df;letter-spacing:8px;font-weight:bold;
+  text-shadow:0 0 60px rgba(224,54,44,.25)}
+#b .sub{font-size:40px;color:#e0362c;letter-spacing:26px;margin-top:36px;font-weight:bold}
+/* 结尾卡 */
+#end{position:absolute;left:0;right:0;top:45%;text-align:center;opacity:0}
+#end .logo{font-size:110px;color:#eae6df;letter-spacing:60px;text-indent:60px;font-weight:400}
+#end .sub{font-size:34px;color:#8f8a81;letter-spacing:8px;margin-top:48px}
+#end .sub i{color:#e0362c;font-style:normal}
+/* RGB 分离层(故障用) */
+.ghost{position:absolute;left:0;right:0;text-align:center;opacity:0;pointer-events:none}
+#gr{top:46%;color:rgba(224,54,44,.8)}
+#gc{top:46%;color:rgba(60,200,220,.55)}
+.ghost .t{font-size:86px;letter-spacing:14px}
+/* 故障横条 */
+.bar{position:absolute;left:0;width:1080px;background:#eae6df;opacity:0}
+/* 颗粒/暗角/扫描线 */
+#grain{position:absolute;inset:0;width:1080px;height:1920px;image-rendering:pixelated}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 60% at 50% 48%,transparent 40%,rgba(0,0,0,.72) 100%)}
+#scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 4px,rgba(0,0,0,.14) 4px 7px)}
+#flash{position:absolute;inset:0;background:#eae6df;opacity:0}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="vinyl"></div>
+  <div id="a"><div class="t">他聋了 200 年</div><div class="line"></div></div>
+  <div class="ghost" id="gr"><div class="t">他聋了 200 年</div></div>
+  <div class="ghost" id="gc"><div class="t">他聋了 200 年</div></div>
+  <div id="b"><div class="t">今天他听见了</div><div class="sub">TECHNO · 2026</div></div>
+  <div id="end">
+    <div class="logo">EGERI</div>
+    <div class="sub">AI 生成 · Analog wrong beauty <i>:(</i></div>
+  </div>
+  <div class="bar" id="bar1"></div>
+  <div class="bar" id="bar2"></div>
+  <div class="bar" id="bar3"></div>
+  <canvas id="grain" width="270" height="480"></canvas>
+  <div id="vig"></div>
+  <div id="scan"></div>
+  <div id="flash"></div>
+</div>
+<script>
+function mulberry32(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const $=id=>document.getElementById(id);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const ease=x=>1-Math.pow(1-x,3);           // ease-out cubic
+const easeIn=x=>x*x;
+function fade(t,a,b){return clamp((t-a)/(b-a),0,1)}
+
+const gctx=$('grain').getContext('2d');
+function drawGrain(frame,strength){
+  const w=270,h=480,img=gctx.createImageData(w,h),d=img.data,rnd=mulberry32(frame*7919+13);
+  for(let i=0;i<d.length;i+=4){
+    const v=rnd()*255;
+    d[i]=d[i+1]=d[i+2]=v;
+    d[i+3]=rnd()<0.5?0:strength*255;
+  }
+  gctx.putImageData(img,0,0);
+}
+
+window.seek=function(t,frame){
+  const rnd=mulberry32(frame*104729+7);
+  const stage=$('stage');
+  stage.style.transform='none';
+  $('flash').style.opacity=0;
+  ['bar1','bar2','bar3'].forEach(id=>$(id).style.opacity=0);
+  $('gr').style.opacity=0;$('gc').style.opacity=0;
+
+  // ---- A: 他聋了200年 (0 – 2.5) ----
+  const a=$('a');
+  if(t<2.55){
+    a.style.opacity=fade(t,0.15,1.1)* (1-fade(t,2.45,2.55));
+    a.style.transform=`translateY(${(1-ease(fade(t,0.15,1.3)))*30}px)`;
+    document.querySelector('#a .line').style.width=(ease(fade(t,0.5,1.6))*340)+'px';
+  }else a.style.opacity=0;
+
+  // ---- 故障段 (2.0 – 2.5) ----
+  if(t>=2.0&&t<2.5){
+    const g=rnd();
+    // RGB 分离
+    $('gr').style.opacity=0.85;$('gc').style.opacity=0.7;
+    $('gr').style.transform=`translateX(${(rnd()-0.5)*46}px)`;
+    $('gc').style.transform=`translateX(${(rnd()-0.5)*-46}px)`;
+    // 整屏抖动
+    stage.style.transform=`translate(${(rnd()-0.5)*24}px,${(rnd()-0.5)*10}px)`;
+    // 撕裂横条
+    ['bar1','bar2','bar3'].forEach(id=>{
+      const b=$(id);
+      b.style.opacity=rnd()<0.6?0.12+rnd()*0.2:0;
+      b.style.top=Math.floor(rnd()*1920)+'px';
+      b.style.height=(2+rnd()*8)+'px';
+      b.style.background=rnd()<0.3?'#e0362c':'#eae6df';
+    });
+    if(g<0.25)$('flash').style.opacity=0.08+rnd()*0.1;
+  }
+
+  // ---- B: 今天他听见了 (2.5 – 5.0) ----
+  const b=$('b');
+  if(t>=2.5&&t<5.05){
+    const local=t-2.5;
+    b.style.opacity=(local<0.06?local/0.06:1)*(1-fade(t,4.75,5.0));
+    // 砸入:1.38 -> 1.0
+    let s=1+0.38*(1-ease(clamp(local/0.28,0,1)));
+    // 节拍脉冲 (3.0/3.5/4.0/4.5)
+    [3.0,3.5,4.0,4.5].forEach(beat=>{
+      if(t>=beat)s+=0.055*Math.exp(-(t-beat)*9);
+    });
+    const rot=(rnd()-0.5)*0.5;
+    b.style.transform=`scale(${s}) rotate(${rot}deg)`;
+    // 黑胶浮现并旋转
+    $('vinyl').style.opacity=0.5*fade(t,2.5,3.2)*(1-fade(t,4.75,5.0));
+    $('vinyl').style.transform=`rotate(${(t-2.5)*24}deg)`;
+  }else{b.style.opacity=0;$('vinyl').style.opacity=0}
+
+  // ---- 结尾卡 (5.2 – 8.0) ----
+  const end=$('end');
+  end.style.opacity=fade(t,5.25,6.1)*(1-fade(t,7.3,7.9));
+  end.style.transform=`translateY(${(1-ease(fade(t,5.25,6.3)))*20}px)`;
+
+  // ---- 颗粒 ----
+  const inGlitch=(t>=2.0&&t<2.5);
+  drawGrain(frame,inGlitch?0.16:0.075);
+  return true;
+};
+window.seek(0,0);
+</script>
+</body>
+</html>
