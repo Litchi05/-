@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黄金三秒 · 信息流钩子案例库</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5/400.css');
+  @import url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5/600.css');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #08080a;
+    --bg2:     #0d0d10;
+    --surface: #101014;
+    --card:    #141418;
+    --border:  #232328;
+    --border2: #2e2e35;
+    --gold:    #c9a96a;
+    --gold-dim:#9a824f;
+    --red:     #7a3b3b;
+    --text:    #ece7dd;
+    --text-dim:#a09a8f;
+    --muted:   #65605a;
+    --faint:   #3a3631;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+    font-weight: 300; line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--gold); color: #08080a; }
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* ============ FILM GRAIN ============ */
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    opacity: .5;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 56px;
+    background: linear-gradient(to bottom, rgba(8,8,10,.92) 30%, transparent);
+  }
+  .nav-logo { font-size: 20px; font-weight: 600; letter-spacing: .14em; color: var(--gold); text-decoration: none; }
+  .nav-logo span { color: var(--muted); font-weight: 300; font-size: 12px; letter-spacing: .08em; }
+  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-dim); text-decoration: none; transition: color .25s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px;
+    background: var(--gold); transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ============ HERO ============ */
+  .hero { min-height: 78vh; position: relative; display: flex; align-items: center; overflow: hidden; }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 75% 35%, rgba(122,59,59,.14), transparent 65%),
+      radial-gradient(ellipse 50% 70% at 15% 75%, rgba(201,169,106,.05), transparent 60%),
+      linear-gradient(165deg, #0c0a0b 0%, #08080a 45%, #0a0a0d 100%);
+  }
+  .hero::before, .hero::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 46px; z-index: 3;
+    background: #000; opacity: .55;
+  }
+  .hero::before { top: 0; }
+  .hero::after { bottom: 0; }
+  .hero-inner { position: relative; z-index: 2; padding: 120px 56px 80px; width: 100%; max-width: 1400px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+  .hero-title { font-size: clamp(40px, 6vw, 84px); font-weight: 400; line-height: 1.15; letter-spacing: .04em; }
+  .hero-title em { font-style: normal; color: var(--gold); }
+  .hero-sub { margin-top: 26px; max-width: 620px; color: var(--text-dim); font-size: 15px; }
+  .hero-stats { display: flex; gap: 64px; margin-top: 56px; flex-wrap: wrap; }
+  .hero-stat .num { font-size: 44px; color: var(--gold); line-height: 1.1; }
+  .hero-stat .lbl { font-size: 12px; letter-spacing: .18em; color: var(--muted); margin-top: 6px; }
+
+  /* ============ SECTION SHELL ============ */
+  section { padding: 110px 56px; position: relative; }
+  .sec-inner { max-width: 1400px; margin: 0 auto; }
+  .sec-eyebrow { font-size: 11px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 16px; }
+  .sec-title { font-size: clamp(26px, 3.4vw, 42px); font-weight: 400; letter-spacing: .05em; margin-bottom: 18px; }
+  .sec-desc { color: var(--text-dim); max-width: 680px; font-size: 14.5px; margin-bottom: 54px; }
+  .sec-alt { background: var(--bg2); }
+
+  /* ============ 方法论 ============ */
+  .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .method-card {
+    background: var(--surface); border: 1px solid var(--border); padding: 34px 30px;
+    transition: border-color .3s, transform .3s;
+  }
+  .method-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); }
+  .method-card .step { font-size: 34px; color: var(--faint); line-height: 1; }
+  .method-card h3 { font-size: 17px; font-weight: 500; margin: 16px 0 10px; letter-spacing: .06em; }
+  .method-card h3 i { font-style: normal; color: var(--gold); font-size: 12px; letter-spacing: .2em; display: block; margin-bottom: 4px; }
+  .method-card p { font-size: 13.5px; color: var(--text-dim); }
+
+  .formula {
+    margin-top: 26px; border: 1px solid var(--border2); background: var(--card);
+    padding: 30px 34px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  .formula .f-label { font-size: 11px; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; margin-right: 10px; }
+  .formula .f-part { font-size: 15px; letter-spacing: .06em; border-bottom: 1px solid var(--gold-dim); padding-bottom: 2px; }
+  .formula .f-op { color: var(--muted); font-size: 18px; }
+
+  /* ============ 钩子类型 ============ */
+  .types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .type-card {
+    background: var(--surface); border: 1px solid var(--border); padding: 26px 24px;
+    cursor: pointer; transition: border-color .3s, background .3s;
+  }
+  .type-card:hover { border-color: var(--gold-dim); background: var(--card); }
+  .type-card .t-no { font-size: 13px; color: var(--faint); letter-spacing: .1em; }
+  .type-card h3 { font-size: 16px; font-weight: 500; margin: 8px 0 6px; letter-spacing: .08em; }
+  .type-card .t-formula { font-size: 12px; color: var(--gold-dim); margin-bottom: 10px; letter-spacing: .04em; }
+  .type-card p { font-size: 12.5px; color: var(--text-dim); line-height: 1.65; }
+  .type-card .t-eg { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); }
+  .type-card .t-eg b { color: var(--text-dim); font-weight: 400; }
+
+  /* ============ 筛选器 ============ */
+  .filter-bar { margin-bottom: 40px; }
+  .filter-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-row .f-cat { font-size: 11px; letter-spacing: .25em; color: var(--muted); text-transform: uppercase; flex-shrink: 0; width: 64px; }
+  .chip {
+    font-size: 12.5px; letter-spacing: .06em; color: var(--text-dim);
+    border: 1px solid var(--border); background: transparent; padding: 6px 16px;
+    cursor: pointer; transition: all .25s; font-family: inherit;
+  }
+  .chip:hover { color: var(--text); border-color: var(--border2); }
+  .chip.on { color: #08080a; background: var(--gold); border-color: var(--gold); }
+  .search-input {
+    width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-family: inherit; font-size: 13.5px; padding: 11px 18px;
+    letter-spacing: .04em; outline: none; transition: border-color .25s;
+  }
+  .search-input:focus { border-color: var(--gold-dim); }
+  .search-input::placeholder { color: var(--muted); }
+  .result-count { font-size: 12px; color: var(--muted); letter-spacing: .12em; margin-top: 14px; }
+  .result-count b { color: var(--gold); font-weight: 400; }
+
+  /* ============ 案例卡片 ============ */
+  .cases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .case-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 28px 26px; display: flex; flex-direction: column;
+    transition: border-color .3s, transform .3s;
+  }
+  .case-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); }
+  .case-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .case-brand { font-size: 17px; font-weight: 500; letter-spacing: .08em; }
+  .case-tags { display: flex; gap: 6px; flex-shrink: 0; }
+  .tag { font-size: 10.5px; letter-spacing: .08em; padding: 3px 9px; border: 1px solid var(--border2); color: var(--muted); white-space: nowrap; }
+  .tag.gold { color: var(--gold); border-color: var(--gold-dim); }
+  .case-hook {
+    position: relative; background: var(--card); border-left: 2px solid var(--gold);
+    padding: 16px 18px; font-size: 14.5px; line-height: 1.7; letter-spacing: .02em; margin-bottom: 16px;
+  }
+  .case-hook::before { content: '00:00 — 00:03'; display: block; font-size: 10px; letter-spacing: .22em; color: var(--gold-dim); margin-bottom: 6px; font-family: 'Cormorant Garamond', serif; }
+  .case-visual { font-size: 12.5px; color: var(--muted); margin-bottom: 12px; }
+  .case-visual b { color: var(--text-dim); font-weight: 400; letter-spacing: .12em; font-size: 11px; }
+  .case-note { font-size: 13px; color: var(--text-dim); flex: 1; }
+  .case-note b { color: var(--gold-dim); font-weight: 400; letter-spacing: .12px; font-size: 11px; letter-spacing: .12em; }
+  .case-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+  .copy-btn {
+    font-size: 11px; letter-spacing: .2em; color: var(--muted); background: none; border: none;
+    cursor: pointer; font-family: inherit; transition: color .25s; text-transform: uppercase;
+  }
+  .copy-btn:hover { color: var(--gold); }
+  .copy-btn.done { color: var(--gold); }
+  .empty-tip { grid-column: 1 / -1; text-align: center; color: var(--muted); font-size: 13.5px; padding: 60px 0; letter-spacing: .1em; }
+
+  /* ============ 自有素材 ============ */
+  .own-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .own-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: border-color .3s; }
+  .own-card:hover { border-color: var(--gold-dim); }
+  .own-card video { width: 100%; aspect-ratio: 9 / 12; object-fit: cover; display: block; background: #000; }
+  .own-body { padding: 20px 22px 24px; }
+  .own-body h3 { font-size: 15px; font-weight: 500; letter-spacing: .06em; margin-bottom: 6px; }
+  .own-body .own-type { font-size: 11px; letter-spacing: .18em; color: var(--gold-dim); margin-bottom: 10px; }
+  .own-body p { font-size: 12.5px; color: var(--text-dim); }
+
+  /* ============ 自检清单 ============ */
+  .check-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 40px; max-width: 980px; }
+  .check-item { display: flex; gap: 16px; align-items: baseline; border-bottom: 1px solid var(--border); padding: 16px 4px; }
+  .check-item .c-no { font-size: 20px; color: var(--gold-dim); flex-shrink: 0; }
+  .check-item p { font-size: 13.5px; color: var(--text-dim); }
+  .check-item p b { color: var(--text); font-weight: 400; }
+
+  /* ============ FOOTER ============ */
+  footer { padding: 60px 56px; border-top: 1px solid var(--border); }
+  .foot-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; }
+  footer p { font-size: 12px; color: var(--muted); letter-spacing: .1em; }
+  footer a { color: var(--text-dim); text-decoration: none; font-size: 12px; letter-spacing: .14em; transition: color .25s; }
+  footer a:hover { color: var(--gold); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1100px) {
+    .types-grid { grid-template-columns: repeat(3, 1fr); }
+    .cases-grid, .own-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 760px) {
+    nav { padding: 14px 20px; flex-wrap: wrap; gap: 8px 0; background: rgba(8,8,10,.92); }
+    .nav-logo { font-size: 17px; }
+    .nav-logo span { display: none; }
+    .nav-links { gap: 14px; flex-wrap: wrap; }
+    .nav-links a { font-size: 11px; letter-spacing: .06em; }
+    section { padding: 80px 24px; }
+    .hero-inner { padding: 110px 24px 60px; }
+    .hero-stats { gap: 36px; }
+    .method-grid, .types-grid, .cases-grid, .own-grid, .check-list { grid-template-columns: 1fr; }
+    .filter-row .f-cat { width: 100%; }
+    footer { padding: 48px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo serif" href="index.html">林怡杰<span> · 钩子案例库</span></a>
+  <ul class="nav-links">
+    <li><a href="#method">方法论</a></li>
+    <li><a href="#types">钩子类型</a></li>
+    <li><a href="#cases">品牌案例</a></li>
+    <li><a href="#own">自有实拍</a></li>
+    <li><a href="index.html">返回主站</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Douyin Feed · The Golden 3 Seconds</p>
+    <h1 class="hero-title serif">黄金三秒<br>信息流<em>钩子</em>案例库</h1>
+    <p class="hero-sub">抖音信息流的生死线画在第 3 秒。这里沉淀了钩子的底层方法、十二种可复用的开场句式,以及各大品牌投放素材前三秒的逐条拆解——供选题、写脚本、拍开头时随查随用。</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num serif" id="stat-cases">36</div><div class="lbl">品牌案例</div></div>
+      <div class="hero-stat"><div class="num serif">12</div><div class="lbl">钩子类型</div></div>
+      <div class="hero-stat"><div class="num serif">10</div><div class="lbl">覆盖行业</div></div>
+      <div class="hero-stat"><div class="num serif">3s</div><div class="lbl">决定去留</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ METHOD 方法论 ============ -->
+<section id="method">
+  <div class="sec-inner">
+    <p class="sec-eyebrow">Methodology</p>
+    <h2 class="sec-title serif">为什么是三秒</h2>
+    <p class="sec-desc">信息流是"被动观看"场景:用户不是来找你的,是被算法推给你的。3 秒完播率直接影响素材的初始跑量与 ECPM——开头留不住人,后面拍得再好也没有播放机会。</p>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="step serif">01</div>
+        <h3><i>0 — 1s</i>视觉锤 + 第一句话</h3>
+        <p>画面必须在第一帧就"不像广告":怼脸、冲突动作、反常画面或大字标题。第一句话直接进入信息,不做任何铺垫、问候、自我介绍。</p>
+      </div>
+      <div class="method-card">
+        <div class="step serif">02</div>
+        <h3><i>1 — 3s</i>锁定人群,埋下钩子</h3>
+        <p>让目标用户"对号入座"(点名身份或痛点),同时留一个未完成的悬念或一个明确的利益承诺,给用户一个"再看两秒"的理由。</p>
+      </div>
+      <div class="method-card">
+        <div class="step serif">03</div>
+        <h3><i>3 — 5s</i>兑现与展开</h3>
+        <p>钩子必须被兑现:立刻给出证据、演示或转折,否则用户感到被骗即划走。前 3 秒负责"停留",第 3—5 秒负责"信任"。</p>
+      </div>
+    </div>
+    <div class="formula">
+      <span class="f-label">钩子公式</span>
+      <span class="f-part">叫住谁(人群/痛点)</span>
+      <span class="f-op">×</span>
+      <span class="f-part">打破预期(反差/悬念)</span>
+      <span class="f-op">×</span>
+      <span class="f-part">给出理由(利益/证据)</span>
+      <span class="f-op">=</span>
+      <span class="f-part" style="border-color: var(--gold); color: var(--gold);">3 秒停留</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TYPES 钩子类型 ============ -->
+<section id="types" class="sec-alt">
+  <div class="sec-inner">
+    <p class="sec-eyebrow">Hook Patterns</p>
+    <h2 class="sec-title serif">十二种钩子句式</h2>
+    <p class="sec-desc">点击任意类型,可直接跳转到案例库并按该类型筛选。</p>
+    <div class="types-grid" id="types-grid"></div>
+  </div>
+</section>
+
+<!-- ============ CASES 案例库 ============ -->
+<section id="cases">
+  <div class="sec-inner">
+    <p class="sec-eyebrow">Case Library</p>
+    <h2 class="sec-title serif">品牌信息流钩子案例</h2>
+    <p class="sec-desc">按公开投放素材的常见开场整理与复刻,保留"前三秒口播 + 画面 + 拆解"三要素,仅作学习拆解用途。</p>
+
+    <div class="filter-bar">
+      <div class="filter-row">
+        <span class="f-cat">类型</span>
+        <div id="filter-type" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+      <div class="filter-row">
+        <span class="f-cat">行业</span>
+        <div id="filter-industry" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+      <div class="filter-row">
+        <span class="f-cat">搜索</span>
+        <input class="search-input" id="search" type="search" placeholder="搜品牌 / 关键词,如:洗发水、划走、痛点…">
+      </div>
+      <p class="result-count">共 <b id="count">0</b> 条案例</p>
+    </div>
+
+    <div class="cases-grid" id="cases-grid"></div>
+  </div>
+</section>
+
+<!-- ============ OWN 自有实拍 ============ -->
+<section id="own" class="sec-alt">
+  <div class="sec-inner">
+    <p class="sec-eyebrow">In-house Footage</p>
+    <h2 class="sec-title serif">自有信息流实拍案例</h2>
+    <p class="sec-desc">以下为本站作者实际参与拍摄的信息流素材,标注了各条素材所属类目常用的钩子打法,可对照品牌案例库复盘开头写法。</p>
+    <div class="own-grid" id="own-grid"></div>
+  </div>
+</section>
+
+<!-- ============ CHECKLIST 自检清单 ============ -->
+<section id="checklist">
+  <div class="sec-inner">
+    <p class="sec-eyebrow">Checklist</p>
+    <h2 class="sec-title serif">发布前的三秒自检</h2>
+    <p class="sec-desc">脚本写完、粗剪出片后,用这八条过一遍开头。</p>
+    <div class="check-list">
+      <div class="check-item"><span class="c-no serif">1</span><p><b>第一帧像不像广告?</b>像,就换画面——logo、包装盒、影棚灯光尽量后置。</p></div>
+      <div class="check-item"><span class="c-no serif">2</span><p><b>第一句话删掉会损失什么?</b>没损失就删,直到每个字都在传递信息。</p></div>
+      <div class="check-item"><span class="c-no serif">3</span><p><b>目标用户能否在 3 秒内对号入座?</b>钩子里要有他的身份、场景或痛点。</p></div>
+      <div class="check-item"><span class="c-no serif">4</span><p><b>有没有留下未完成感?</b>悬念、转折、问题,总要有一个没说完。</p></div>
+      <div class="check-item"><span class="c-no serif">5</span><p><b>静音状态下能否看懂?</b>大字幕、画面动作要独立成立,多数用户静音刷。</p></div>
+      <div class="check-item"><span class="c-no serif">6</span><p><b>钩子在 5 秒内兑现了吗?</b>承诺不兑现,完播和转化会双杀。</p></div>
+      <div class="check-item"><span class="c-no serif">7</span><p><b>同一个卖点,备了几个开头?</b>至少 3 个不同钩子混剪 A/B 跑量。</p></div>
+      <div class="check-item"><span class="c-no serif">8</span><p><b>合规吗?</b>疗效承诺、极限词、贬损竞品都过不了审,钩子再好也白拍。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <p>© 2026 林怡杰 · 信息流钩子案例库 · 案例文案依据公开投放素材整理复刻,仅供学习拆解</p>
+    <a href="index.html">← 返回作品集主站</a>
+  </div>
+</footer>
+
+<script>
+/* ============ 数据:钩子类型 ============ */
+const HOOK_TYPES = [
+  { name: '悬念好奇', formula: '反常事实 + 不说答案', desc: '抛出一个违反常识或信息不完整的开头,用户为了"知道答案"而停留。', eg: '"让全网排队两小时的这杯,到底加了什么?"' },
+  { name: '痛点直击', formula: '你的问题 + 我看见了', desc: '第一句话说出目标用户正在经历的具体麻烦,越具体越扎心。', eg: '"头发一天不洗就塌就油,扎起来全是碎发?"' },
+  { name: '身份点名', formula: '叫住某类人 + 别划走', desc: '直接点名人群身份,让目标用户瞬间对号入座,非目标用户划走反而提升人群精度。', eg: '"油痘皮先别划走,这条视频能帮你省三千块。"' },
+  { name: '利益承诺', formula: '具体好处 + 低门槛', desc: '开头就给出可量化、可想象的收益,并暗示获取门槛很低。', eg: '"15 分钟,在家做出一盘米其林同款。"' },
+  { name: '反差冲突', formula: '常识 A,但其实 B', desc: '先立一个大众认知,再当场推翻,认知失衡带来强停留。', eg: '"几十块的吹风机和三千块的,差距到底在哪?拆开看。"' },
+  { name: '恐惧损失', formula: '你正在失去 + 而你不知道', desc: '指出用户正在发生的损失或风险,损失厌恶比获得感更能留人,注意合规边界。', eg: '"刷牙越用力,牙齿掉得越早。"' },
+  { name: '数字冲击', formula: '极端数字 + 反差单位', desc: '用具体、极端、可对比的数字制造冲击,数字自带可信感。', eg: '"紫外线最强的两小时,皮肤老化速度是平时的 3 倍。"' },
+  { name: '权威背书', formula: '权威身份 + 内部视角', desc: '借专家、机构、从业者身份开场,用"内部人才知道"的视角制造信息差。', eg: '"皮肤科医生自己烂脸的时候,用什么?"' },
+  { name: '场景代入', formula: '具体时刻 + 熟悉细节', desc: '还原一个用户每天都在经历的具体时刻,先共情再带出产品。', eg: '"早上 7 点 50,离打卡还有 10 分钟。"' },
+  { name: '争议站队', formula: '争议话题 + 逼你表态', desc: '抛出有分歧的观点让用户想反驳或认同,评论区互动反哺流量。', eg: '"0 糖是不是智商税?配料表一行行讲给你听。"' },
+  { name: '剧情冲突', formula: '戏剧冲突 + 强情绪', desc: '用短剧式冲突开场(争吵、意外、反转前夜),先看戏再带货。', eg: '"老板说这批凤爪卖不掉就扣我工资——救我。"' },
+  { name: '福利促销', formula: '大让利 + 限时限地', desc: '直接把优惠拍在脸上,数字要具体,限制条件制造紧迫感。', eg: '"全场任意一杯,今天只要一块钱。"' },
+];
+
+/* ============ 数据:品牌案例 ============ */
+const CASES = [
+  // —— 美妆护肤 ——
+  { brand: '珀莱雅', industry: '美妆护肤', type: '痛点直击', hook: '熬夜之后的脸垮得有多快,你敢开原相机正面拍一次自己吗?', visual: '素颜怼脸原相机镜头,冷白光,无任何包装出镜', note: '用"敢不敢"制造自我审视,目标用户 1 秒对号入座;原相机画面天然不像广告,压住了划走反射。' },
+  { brand: '完美日记', industry: '美妆护肤', type: '反差冲突', hook: '一百块以内的口红我劝你都别乱买——除了这三支。', visual: '手背试色被划掉,只留三道颜色特写', note: '"劝退式开头"先站在用户一边否定品类,再用例外转折收回注意力,比直接夸产品可信得多。' },
+  { brand: '花西子', industry: '美妆护肤', type: '场景代入', hook: '上镜前五分钟,化妆师只会给我补这一步。', visual: '后台化妆镜前视角,化妆师手部特写', note: '"上镜前五分钟"是具体到分钟的场景,加上"只补这一步"的信息差悬念,双钩叠加。' },
+  { brand: '薇诺娜', industry: '美妆护肤', type: '权威背书', hook: '皮肤科医生自己烂脸的时候,用的是什么?', visual: '白大褂出镜,诊室背景,举起手中产品但不露正标', note: '权威身份 + 内部视角,"医生自己也用"比"医生推荐"少一层广告感;产品压后制造悬念。' },
+  { brand: '溪木源', industry: '美妆护肤', type: '身份点名', hook: '油痘皮先别划走,这条视频能帮你省下三千块。', visual: '大字幕"油痘皮别划",口播者对镜头抬手拦截', note: '点名人群 + 量化利益,非目标用户划走反而让算法把素材推得更准,是典型的人群清洗式开头。' },
+  { brand: '韩束', industry: '美妆护肤', type: '剧情冲突', hook: '把合同摔我脸上的那天,我就知道这个班不能再上了。', visual: '办公室短剧,摔合同慢动作,情绪特写', note: '短剧式钩子先给冲突和情绪,完全不提产品;品牌通过剧情冠名与中插完成渗透,吃的是完播率红利。' },
+  // —— 食品饮料 ——
+  { brand: '蜜雪冰城', industry: '食品饮料', type: '福利促销', hook: '全场任意一杯,今天只要一块钱,就在你家楼下。', visual: '门店排队实拍,大字幕"1 元"占半屏', note: '极端让利 + 空间贴近("你家楼下"),把决策成本压到零;数字必须占满画面,静音也能成立。' },
+  { brand: '瑞幸', industry: '食品饮料', type: '悬念好奇', hook: '让全网排队两小时的这一杯,到底加了什么?', visual: '排队长龙延时摄影,杯子只给背影', note: '用群体行为(排队)做社会证明,再用"加了什么"留悬念;产品信息完全后置。' },
+  { brand: '元气森林', industry: '食品饮料', type: '争议站队', hook: '0 糖到底是不是智商税?今天把配料表一行行讲给你听。', visual: '配料表怼镜头特写,手指逐行划过', note: '主动接住品类最大争议,立"透明"人设;想反驳的和想学的都会停,评论区吵起来流量反哺。' },
+  { brand: '三顿半', industry: '食品饮料', type: '场景代入', hook: '早上 7 点 50,离打卡还有 10 分钟,我的咖啡已经好了。', visual: '第一视角赶时间收拾包,冷萃倒进冰牛奶 3 秒成型', note: '精确到分钟的通勤场景让上班族瞬间代入,"已经好了"直接演示核心卖点(速溶快)。' },
+  { brand: '空刻意面', industry: '食品饮料', type: '利益承诺', hook: '15 分钟,厨房小白也能端出一盘米其林同款。', visual: '计时器入画,沸水下面,成品摆盘快剪', note: '利益量化(15 分钟)+ 门槛压低(小白)+ 结果拔高(米其林),一句话装下三个钩点。' },
+  { brand: '认养一头牛', industry: '食品饮料', type: '悬念好奇', hook: '判断一杯牛奶好不好,先别看配料表——先看牛过得好不好。', visual: '牧场航拍接奶牛特写,画风清奇', note: '先否定用户熟悉的方法(看配料表),再给出反常识新标准,把品牌故事变成了钩子本身。' },
+  { brand: '王小卤', industry: '食品饮料', type: '剧情冲突', hook: '老板说这批虎皮凤爪再卖不掉,就从我工资里扣——家人们,救我。', visual: '仓库实拍,员工苦脸抱着纸箱,手写求救牌', note: '打工人叙事 + 求救式互动,冲突真实可信;"救我"给了用户停留和下单的情绪理由。' },
+  { brand: '东鹏特饮', industry: '食品饮料', type: '身份点名', hook: '开夜车的师傅,凌晨三点的服务区你肯定认识。', visual: '凌晨高速服务区实拍,车灯拉丝', note: '点名职业人群 + 深夜场景共情,先做"懂你"再做"卖你",蓝领向素材的标准打开方式。' },
+  // —— 个护家清 ——
+  { brand: 'Ulike', industry: '个护家清', type: '数字冲击', hook: '脱毛这件事,我一年花了 4800,直到我算了一笔账。', visual: '美容院价目表特写,计算器按键声', note: '具体金额制造肉痛感,"算一笔账"暗示有更优解,把价格锚点先钉死再引出家用仪器。' },
+  { brand: '徕芬', industry: '个护家清', type: '反差冲突', hook: '几十块的吹风机和三千块的戴森,差距到底在哪?我们拆开看。', visual: '两台吹风机同框,螺丝刀入画直接开拆', note: '硬核拆机自带"不像广告"属性;借头部品牌做参照物,反差和悬念都有了,还立了技术人设。' },
+  { brand: 'usmile', industry: '个护家清', type: '恐惧损失', hook: '刷牙越用力,牙齿掉得越早——这句话牙医不会主动告诉你。', visual: '牙刷压力实验特写,刷毛炸开慢镜头', note: '推翻日常习惯的恐惧钩,"不会主动告诉你"叠加信息差;实验画面即时兑现,不空吓。' },
+  { brand: '参半', industry: '个护家清', type: '悬念好奇', hook: '你有没有发现,口香糖救不了下午两点的口气?', visual: '办公室凑近说话被同事后仰的搞笑演绎', note: '说出一个人人经历过但没人说破的尴尬观察,精确到"下午两点",观察越细停留越久。' },
+  { brand: '蓝月亮', industry: '个护家清', type: '反差冲突', hook: '白衣服发黄,真不是洗衣粉不行,是你第一步就错了。', visual: '两件对比白 T 同框,一黄一白', note: '"不是 A 是 B"句式先赦免用户再纠错,比指责式开头留存好;对比画面静音可懂。' },
+  // —— 服饰鞋包 ——
+  { brand: '蕉下', industry: '服饰鞋包', type: '数字冲击', hook: '紫外线最强的这两小时,皮肤老化速度是平时的 3 倍。', visual: '正午街头测 UV 仪表读数飙升特写', note: '数字 + 仪器实测双重可信;把"防晒"从美妆问题翻译成"抗老"问题,击穿更大人群。' },
+  { brand: '波司登', industry: '服饰鞋包', type: '权威背书', hook: '登过珠峰的羽绒服,穿在零下 30 度是什么体验?', visual: '雪山实拍素材接城市雪夜穿搭', note: '极端场景背书(珠峰/零下 30 度)一句话立住专业性,再落回日常穿着场景完成转化衔接。' },
+  { brand: 'Ubras', industry: '服饰鞋包', type: '身份点名', hook: '还在戴钢圈的姐妹,先进来坐一下。', visual: '口播者拍沙发示意,姐妹聊天式运镜', note: '点名 + 闺蜜口吻,把广告伪装成姐妹安利;"先进来坐一下"降低对抗感,停留成本极低。' },
+  { brand: '蕉内', industry: '服饰鞋包', type: '反差冲突', hook: '标签缝在里面这件小事,我们较真了五年。', visual: '剪标特写,后颈泛红对比图', note: '把一个被忽略的微小痛点(标签扎人)放大成品牌执念,细节较真感即人设,反差在"小事×五年"。' },
+  // —— 3C 家电 ——
+  { brand: '追觅', industry: '3C 家电', type: '反差冲突', hook: '我把头发、麦片、猫砂全倒在地上,就为了测它一次。', visual: '俯拍倾倒三种垃圾,吸尘器入画', note: '自毁式测评开头制造"这人疯了"的反常画面,静音也看得懂;演示即证据,钩子秒兑现。' },
+  { brand: '石头科技', industry: '3C 家电', type: '场景代入', hook: '晚上九点到家,地已经拖完了——这是我今年买得最值的东西。', visual: '开门第一视角,扫地机回充,地面反光', note: '下班场景 + 结果前置("已经拖完了"),先给爽感再给产品;"最值"引出榜单式好奇。' },
+  { brand: '小米', industry: '3C 家电', type: '数字冲击', hook: '1999,当年就是这个数字,改变了整个行业。', visual: '发布会经典画面快闪,大字 1999', note: '品牌资产数字自带故事钩;"改变行业"的宏大叙事与具体数字形成张力,老用户情怀新用户好奇。' },
+  { brand: '科沃斯', industry: '3C 家电', type: '痛点直击', hook: '扫地机是不是人工智障,就看它敢不敢进你家卫生间。', visual: '窄门卫生间实测,机器贴边过弯', note: '接住品类负面梗("人工智障")自黑开场,再用最难场景实测正名,先泄压再立信。' },
+  // —— 母婴教育 ——
+  { brand: '斑马', industry: '母婴教育', type: '痛点直击', hook: '孩子坐不住五分钟就跑?先别怪他,可能是方法错了。', visual: '娃从书桌溜走的家庭实拍,妈妈叹气', note: '先共情再赦免("别怪他"),家长的愧疚感被接住;"方法错了"引出解决方案的悬念。' },
+  { brand: '猿辅导', industry: '母婴教育', type: '场景代入', hook: '晚上十点,你在客厅辅导作业的声音,整栋楼都听得见。', visual: '居民楼夜景灯光,一户传出吼声的喜剧演绎', note: '全民梗场景(辅导作业崩溃)自带笑点与共鸣,先让家长笑出声,再谈解法。' },
+  { brand: 'Babycare', industry: '母婴教育', type: '恐惧损失', hook: '宝宝红屁股反反复复,可能不是尿不湿的错,是你换的时机不对。', visual: '育儿师示范更换手法特写', note: '恐惧点由资深育儿视角托底,"时机不对"把责任从产品转向方法,顺势带出内容价值。' },
+  // —— 游戏应用 ——
+  { brand: '原神', industry: '游戏应用', type: '悬念好奇', hook: '这座会呼吸的城市,是 400 个人画了三年的结果。', visual: '游戏实机运镜长镜头,无 UI 纯画面', note: '用制作规模数字讲画面,唯美长镜头在信息流里就是稀缺画风,差异化即钩子。' },
+  { brand: '拼多多', industry: '游戏应用', type: '福利促销', hook: '新人一分钱,这箱水果今天就到你家。', visual: '水果开箱瀑布式倒出,大字"0.01"', note: '把"一分钱"具象成一整箱实物的画面冲击,利益可视化;"今天就到"消解等待疑虑。' },
+  { brand: '剑与远征', industry: '游戏应用', type: '利益承诺', hook: '不肝不氪,挂机就能变强——上班摸鱼党的第一款游戏。', visual: '手机放桌上自动战斗,主人去泡咖啡', note: '一句话同时说明玩法(挂机)、人群(摸鱼党)、利益(变强),负门槛承诺是休闲游戏的标准钩。' },
+  // —— 大健康 ——
+  { brand: '小仙炖', industry: '大健康', type: '权威背书', hook: '燕窝到底怎么选?先看这张检测报告再说。', visual: '检测报告怼脸,重点数据划线', note: '报告实物即视觉锤,"先看再说"的克制话术反而立住专业;规避疗效表述,合规且可信。' },
+  { brand: 'Swisse', industry: '大健康', type: '身份点名', hook: '天天熬夜还不敢体检的,这条先收藏再说。', visual: '深夜屏幕光照脸的第一视角', note: '点名"熬夜不敢体检"这个心虚人群,情绪拿捏精准;"先收藏"给出低成本互动指令。' },
+  // —— 家居生活 / 本地生活 ——
+  { brand: '林氏家居', industry: '家居生活', type: '利益承诺', hook: '一万块,把 89 平的家从毛坯软装到能拎包住,我拍给你看。', visual: '毛坯房快切精装对比,预算表贴屏', note: '预算 + 面积 + 结果三个具体数,"拍给你看"承诺全程可验证,装修人群停留极稳。' },
+  { brand: '美团', industry: '本地生活', type: '场景代入', hook: '凌晨一点写完方案,楼下还亮着灯的那家店,救过所有加班的人。', visual: '雨夜街角亮灯小店,骑手远去背影', note: '深夜加班 + 街角灯光的情绪场景先行,平台角色藏在故事里,品牌向信息流的高级打法。' },
+];
+
+/* ============ 数据:自有素材 ============ */
+const OWN = [
+  { file: '信息流_笛梵洗发水.mp4', title: '笛梵 · 洗发水口播', type: '痛点直击 × 身份点名', note: '洗护类目经典开法:先点名"头油/扁塌"人群,一句话说破洗后当天就塌的痛点,再进入产品演示。' },
+  { file: '信息流_防脱发膜.mp4', title: '笛梵 · 防脱发膜', type: '恐惧损失 × 数字冲击', note: '防脱类目吃"损失感":掉发量、发际线等可量化画面放在首帧,注意规避疗效承诺的合规红线。' },
+  { file: '信息流_发膜种草口播.mp4', title: '发膜 · 种草口播', type: '场景代入 × 利益承诺', note: '种草口播适合"具体场景 + 即时结果"结构:吹完头的手感、出门前五分钟,承诺越具体越可信。' },
+  { file: '信息流_笛梵发膜质地.mp4', title: '笛梵 · 发膜质地展示', type: '视觉锤 × 悬念好奇', note: '质地特写是天然的第一帧视觉锤:拉丝、涂抹、吸收的微距画面静音可懂,配一句悬念口播即可成立。' },
+  { file: '信息流_护发口播.mp4', title: '护发 · 口播', type: '反差冲突 × 权威背书', note: '"你以为的护发 vs 正确的护发"是护发内容的万能反差框架,叠加发型师/成分党身份更稳。' },
+  { file: '信息流_洗衣色母片.mp4', title: '洗衣色母片', type: '反差实验 × 恐惧损失', note: '家清品最适合实验钩:白衣服被染色的"事故画面"做首帧,色母片吸色对比即时兑现,3 秒内讲完冲突。' },
+];
+
+/* ============ 渲染:钩子类型 ============ */
+const typesGrid = document.getElementById('types-grid');
+HOOK_TYPES.forEach((t, i) => {
+  const el = document.createElement('div');
+  el.className = 'type-card';
+  el.innerHTML = `
+    <div class="t-no serif">${String(i + 1).padStart(2, '0')}</div>
+    <h3>${t.name}</h3>
+    <div class="t-formula">${t.formula}</div>
+    <p>${t.desc}</p>
+    <div class="t-eg"><b>示例</b> ${t.eg}</div>`;
+  el.addEventListener('click', () => {
+    setFilter('type', t.name);
+    document.getElementById('cases').scrollIntoView({ behavior: 'smooth' });
+  });
+  typesGrid.appendChild(el);
+});
+
+/* ============ 筛选状态 ============ */
+const state = { type: '全部', industry: '全部', q: '' };
+const industries = ['全部', ...new Set(CASES.map(c => c.industry))];
+const typeNames = ['全部', ...HOOK_TYPES.map(t => t.name)];
+
+function buildChips(containerId, values, key) {
+  const box = document.getElementById(containerId);
+  values.forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (v === '全部' ? ' on' : '');
+    b.textContent = v;
+    b.dataset.val = v;
+    b.addEventListener('click', () => setFilter(key, v));
+    box.appendChild(b);
+  });
+}
+buildChips('filter-type', typeNames, 'type');
+buildChips('filter-industry', industries, 'industry');
+
+function setFilter(key, val) {
+  state[key] = val;
+  const boxId = key === 'type' ? 'filter-type' : 'filter-industry';
+  document.querySelectorAll(`#${boxId} .chip`).forEach(c => c.classList.toggle('on', c.dataset.val === val));
+  renderCases();
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  state.q = e.target.value.trim();
+  renderCases();
+});
+
+/* ============ 渲染:案例 ============ */
+const casesGrid = document.getElementById('cases-grid');
+function renderCases() {
+  const q = state.q.toLowerCase();
+  const list = CASES.filter(c =>
+    (state.type === '全部' || c.type === state.type) &&
+    (state.industry === '全部' || c.industry === state.industry) &&
+    (!q || (c.brand + c.hook + c.note + c.visual + c.type + c.industry).toLowerCase().includes(q))
+  );
+  document.getElementById('count').textContent = list.length;
+  casesGrid.innerHTML = '';
+  if (!list.length) {
+    casesGrid.innerHTML = '<p class="empty-tip">没有匹配的案例 —— 换个关键词或清空筛选试试</p>';
+    return;
+  }
+  list.forEach(c => {
+    const el = document.createElement('article');
+    el.className = 'case-card';
+    el.innerHTML = `
+      <div class="case-head">
+        <div class="case-brand">${c.brand}</div>
+        <div class="case-tags"><span class="tag gold">${c.type}</span><span class="tag">${c.industry}</span></div>
+      </div>
+      <div class="case-hook">${c.hook}</div>
+      <p class="case-visual"><b>画面</b> · ${c.visual}</p>
+      <p class="case-note"><b>拆解</b> · ${c.note}</p>
+      <div class="case-foot"><button class="copy-btn">复制文案</button></div>`;
+    el.querySelector('.copy-btn').addEventListener('click', function () {
+      navigator.clipboard.writeText(c.hook).then(() => {
+        this.textContent = '已复制';
+        this.classList.add('done');
+        setTimeout(() => { this.textContent = '复制文案'; this.classList.remove('done'); }, 1600);
+      });
+    });
+    casesGrid.appendChild(el);
+  });
+}
+renderCases();
+document.getElementById('stat-cases').textContent = CASES.length;
+
+/* ============ 渲染:自有素材 ============ */
+const ownGrid = document.getElementById('own-grid');
+OWN.forEach(o => {
+  const el = document.createElement('div');
+  el.className = 'own-card';
+  el.innerHTML = `
+    <video src="${encodeURI(o.file)}" preload="metadata" controls playsinline></video>
+    <div class="own-body">
+      <h3>${o.title}</h3>
+      <div class="own-type">${o.type}</div>
+      <p>${o.note}</p>
+    </div>`;
+  ownGrid.appendChild(el);
+});
+</script>
+
+</body>
+</html>
