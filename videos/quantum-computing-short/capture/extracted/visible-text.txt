@@ -1,0 +1,21 @@
+USER REQUEST (verbatim): "Here's a YouTube Short I love. Make me something like this, but about quantum computing."
+
+Interpretation: The user wants a YouTube Short — vertical 9:16, ~30-40 seconds, in the viral explainer-Short style: instant hook in the first second, fast pacing, bold kinetic captions synced to narration, one idea per beat, a twist, and a punchy payoff. Topic: quantum computing.
+
+SOURCE MATERIAL — QUANTUM COMPUTING FACTS:
+
+Classical computers process information in bits, which are always in exactly one of two states: 0 or 1. Every photo, song, and app is ultimately long strings of these definite 0s and 1s.
+
+Quantum computers use qubits. Thanks to superposition, a qubit can exist in a combination of 0 AND 1 at the same time — like a coin spinning in the air rather than lying flat as heads or tails. Only when you measure it does it "collapse" into a definite 0 or 1.
+
+Qubits can also be entangled: linked so that measuring one instantly tells you about the other, no matter the distance. Entanglement plus superposition is what gives quantum computers their power.
+
+The power scales exponentially: n qubits can represent 2^n states simultaneously. 300 ideal qubits can encode more states than there are atoms in the observable universe (~10^80 atoms; 2^300 ≈ 10^90).
+
+This means certain problems that would take classical supercomputers millions of years could become tractable: simulating molecules for drug discovery, designing new materials and batteries, optimizing logistics, and breaking (or building) cryptography.
+
+The catch: qubits are extraordinarily fragile. Heat, vibration, or stray electromagnetic noise destroys their quantum state — an effect called decoherence. That's why many quantum computers run inside dilution refrigerators at around 10-15 millikelvin, colder than deep space (outer space is ~2.7 kelvin). Error correction requires many physical qubits per useful "logical" qubit.
+
+Today's machines (IBM, Google, IonQ, and others) are in the "NISQ" era — noisy, intermediate-scale — but progress is fast, and the race to useful, fault-tolerant quantum computing is one of the biggest technology races of this decade.
+
+Punchline: the next computing revolution isn't coming someday — it's already being built.

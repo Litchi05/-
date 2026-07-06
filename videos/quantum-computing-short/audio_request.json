@@ -1,0 +1,36 @@
+{
+  "provider": "auto",
+  "speed": 1,
+  "lines": [
+    {
+      "id": "01",
+      "text": "Your computer thinks in zeros and ones. Quantum computers think in both — at the same time."
+    },
+    {
+      "id": "02",
+      "text": "A normal bit is a coin lying flat — heads or tails. A qubit is that coin spinning — both at once. That's superposition."
+    },
+    {
+      "id": "03",
+      "text": "Every qubit you add doubles the power. Ten qubits — a thousand states. Three hundred? More states than there are atoms in the entire universe."
+    },
+    {
+      "id": "04",
+      "text": "That could crack problems supercomputers would need millions of years for. Designing new medicines. New materials. Unbreakable codes."
+    },
+    {
+      "id": "05",
+      "text": "The catch? Qubits are so fragile, one tiny vibration destroys the magic. So quantum computers live in freezers colder than deep space."
+    },
+    {
+      "id": "06",
+      "text": "The next computing revolution isn't coming. It's already being built."
+    }
+  ],
+  "bgm": {
+    "mode": "retrieve",
+    "query": "dark pulsing electronic, tense and driving, builds to a confident drop",
+    "blob": "Quantum computers don't think in 0 OR 1 — they think in both at once, and that changes everything.",
+    "arc": "concept-explainer"
+  }
+}
