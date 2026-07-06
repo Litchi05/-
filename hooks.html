@@ -436,6 +436,10 @@
     <p class="sec-eyebrow">Brand TVC Copywriting</p>
     <h2 class="sec-title serif">品牌广告 TVC 文案案例</h2>
     <p class="sec-desc">信息流的钩子只负责 3 秒,TVC(电视广告片 / 长视频营销广告)负责把钩子拉长成一条完整的说服链路。以斐萃(FineNutri)为代表——这类靠抖音信息流起量的品牌,TVC 依然遵循"钩子先行、逐段兑现"的结构,只是把 3 秒拆成了 4 个阶段。以下按公开投放风格整理复刻,仅作学习拆解用途。</p>
+    <div class="trend-meta">
+      <span class="trend-date" id="tvc-date"></span>
+      <span class="trend-tip">脚本库共 <b id="tvc-total"></b> 条 · 每日 00:00 自动轮换,今日精选 <b>4</b> 条</span>
+    </div>
     <div class="tvc-list" id="tvc-list"></div>
   </div>
 </section>
@@ -661,6 +665,66 @@ const TVC = [
     ],
     insight: '小米的钩子是"品牌资产数字"——把一个历史锚点数字重新讲一遍就自带情怀和悬念。这类钩子只有拥有真实历史事件的品牌能用,复制门槛高,但效果稳定。',
   },
+  {
+    brand: '珀莱雅', industry: '美妆护肤', duration: '60s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '黑白街头画面,一句设问打在字幕上:"谁说妈妈就必须温柔?" —— 争议站队开场。' },
+      { time: '5—30s', stage: '展开', text: '多组身份反转蒙太奇:男幼师、女机长、下班去打拳的母亲,全程无产品。' },
+      { time: '30—50s', stage: '信任', text: '素人直视镜头独白,讲自己被贴过的标签,情绪递进。' },
+      { time: '50—60s', stage: '收尾', text: '观点收尾:"性别不是边界线,偏见才是。" 品牌 logo 一秒带过。' },
+    ],
+    insight: '观点型 TVC 的代表:产品全程缺席,钩子就是争议观点本身。这类片子的真正投放主场不在电视而在社交平台——正片切成 15 秒观点切片投信息流,评论区的争论就是免费流量。适合品牌资产积累期,不适合直接带货。',
+  },
+  {
+    brand: 'Keep', industry: '运动健身', duration: '45s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '凌晨五点闹钟响,一只手把它按掉,黑屏两秒后灯又亮起——"你有多久,没为一件事拼过命了?"' },
+      { time: '5—25s', stage: '展开', text: '普通人训练的痛苦瞬间蒙太奇:喘气、抽筋、想放弃的表情特写,没有一个完美身材。' },
+      { time: '25—40s', stage: '信任', text: 'App 界面叠加坚持天数字幕"第 231 天",真实用户数据滚动。' },
+      { time: '40—45s', stage: '收尾', text: '"自律给我自由。"' },
+    ],
+    insight: '钩子用自我质问句式,把广告变成用户的内心独白;正片刻意选"不完美的普通人"而非健身模特,痛感先行、爽感后置的反差结构让"坚持"这个卖点可信。黑屏再亮灯的 2 秒节奏设计,是声画钩子的教科书细节。',
+  },
+  {
+    brand: '东方树叶', industry: '食品饮料', duration: '40s',
+    beats: [
+      { time: '0—4s', stage: '钩子', text: '茶山晨雾航拍,旁白自嘲:"一瓶茶,凭什么坐了十年冷板凳才火?"' },
+      { time: '4—20s', stage: '展开', text: '采茶与萃取工艺纪实,"0 糖 0 卡 0 香精"字幕点缀,不抢戏。' },
+      { time: '20—35s', stage: '信任', text: '十年间包装几乎不变的对比画面,"配料表也十年没变:茶、水。"' },
+      { time: '35—40s', stage: '收尾', text: '产品特写收尾,无口号。' },
+    ],
+    insight: '"冷板凳逆袭"是借真实品牌史做的自嘲式悬念钩,比硬讲工艺谦虚得多也可信得多;两行字的配料表本身就是最强信任状。适合有真实时间沉淀的产品,新品牌模仿不来。',
+  },
+  {
+    brand: '大疆', industry: '3C 家电', duration: '50s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '无人机穿越瀑布水帘的第一视角长镜头,一句"这个镜头,过去只有直升机拍得起。"' },
+      { time: '5—30s', stage: '展开', text: '创作者实拍花絮:山地、海岸、城市夜景,拍摄者与画面交替出现。' },
+      { time: '30—45s', stage: '信任', text: '防抖开关对比、避障穿林演示,参数字幕极简。' },
+      { time: '45—50s', stage: '收尾', text: '"让每个人,都拍得起大片。"' },
+    ],
+    insight: '钩子是"门槛民主化"——把专业设备与普通人之间的价格鸿沟一句说破,数字冲击与利益承诺合二为一;而画面本身就是产品力证明,产品即素材,素材即广告,这是影像器材品类独有的红利。',
+  },
+  {
+    brand: '徕芬', industry: '个护家清', duration: '30s',
+    beats: [
+      { time: '0—3s', stage: '钩子', text: '发布会式黑背景,创始人直接开口:"吹风机这个行业,被高端品牌教育得太久了。"' },
+      { time: '3—15s', stage: '展开', text: '电机转速实测、整机拆解对比,工程机摆满一桌。' },
+      { time: '15—25s', stage: '信任', text: '价格数字揭晓:"性能对标三千块,价格砍到十分之一。"' },
+      { time: '25—30s', stage: '收尾', text: '"科技平权。"' },
+    ],
+    insight: '创始人 IP + 挑战者姿态:钩子是向整个行业开炮的争议表态,天然带话题度,发布会素材直接剪成 TVC 与信息流切片,一鱼多吃。挑战者叙事只适合真有技术底气的品牌,否则评论区会反噬。',
+  },
+  {
+    brand: '美团', industry: '本地生活', duration: '60s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '除夕夜的城市空镜,一部亮着的接单手机,字幕:"今晚,还有 37 万人在路上。"' },
+      { time: '5—35s', stage: '展开', text: '骑手除夕送单纪实:等红灯时和家人视频拜年,车把上挂着自己的年夜饭。' },
+      { time: '35—50s', stage: '信任', text: '用户开门瞬间集锦,一句句"新年快乐"由陌生人说出。' },
+      { time: '50—60s', stage: '收尾', text: '"每一份坚持,都值得被送达。"' },
+    ],
+    insight: '数字冲击(37 万人)开场,再把平台运力数据翻译成一个个具体的人;群像纪实的公益感冲淡了商业感,节令情绪片的标准结构。数据钩子 + 人物兑现,信息流与 TVC 通用。',
+  },
 ];
 
 /* ============ 渲染:钩子类型 ============ */
@@ -863,9 +927,12 @@ function generateHooks() {
 }
 document.getElementById('gen-btn').addEventListener('click', generateHooks);
 
-/* ============ 渲染:品牌 TVC 文案案例 ============ */
+/* ============ 渲染:品牌 TVC 文案案例(每日轮换) ============ */
+document.getElementById('tvc-date').textContent = today.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+document.getElementById('tvc-total').textContent = TVC.length;
+const todayTvc = seededPick(TVC, 4, seedFromDate(today) + 7);
 const tvcList = document.getElementById('tvc-list');
-TVC.forEach(v => {
+todayTvc.forEach(v => {
   const el = document.createElement('article');
   el.className = 'tvc-card';
   const fullScript = v.beats.map(b => `[${b.time} ${b.stage}] ${b.text}`).join('\n');
