@@ -223,15 +223,21 @@
   .copy-btn.done { color: var(--gold); }
   .empty-tip { grid-column: 1 / -1; text-align: center; color: var(--muted); font-size: 13.5px; padding: 60px 0; letter-spacing: .1em; }
 
-  /* ============ 自有素材 ============ */
-  .own-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .own-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: border-color .3s; }
-  .own-card:hover { border-color: var(--gold-dim); }
-  .own-card video { width: 100%; aspect-ratio: 9 / 12; object-fit: cover; display: block; background: #000; }
-  .own-body { padding: 20px 22px 24px; }
-  .own-body h3 { font-size: 15px; font-weight: 500; letter-spacing: .06em; margin-bottom: 6px; }
-  .own-body .own-type { font-size: 11px; letter-spacing: .18em; color: var(--gold-dim); margin-bottom: 10px; }
-  .own-body p { font-size: 12.5px; color: var(--text-dim); }
+  /* ============ TVC 品牌广告文案 ============ */
+  .tvc-list { display: flex; flex-direction: column; gap: 20px; }
+  .tvc-card { background: var(--surface); border: 1px solid var(--border); padding: 32px 34px; transition: border-color .3s; }
+  .tvc-card:hover { border-color: var(--gold-dim); }
+  .tvc-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+  .tvc-brand { font-size: 20px; font-weight: 500; letter-spacing: .08em; }
+  .tvc-tags { display: flex; gap: 6px; flex-shrink: 0; }
+  .tvc-timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+  .tvc-beat { border-left: 2px solid var(--gold-dim); padding: 4px 0 4px 14px; }
+  .tvc-beat .beat-time { font-size: 10.5px; letter-spacing: .1em; color: var(--gold); font-family: 'Cormorant Garamond', serif; margin-bottom: 6px; display: block; }
+  .tvc-beat .beat-stage { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin-bottom: 6px; }
+  .tvc-beat .beat-text { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+  .tvc-insight { font-size: 13px; color: var(--text-dim); background: var(--card); border-left: 2px solid var(--gold); padding: 14px 18px; margin-bottom: 16px; }
+  .tvc-insight b { color: var(--gold-dim); font-weight: 400; letter-spacing: .12em; font-size: 11px; }
+  .tvc-foot { display: flex; justify-content: flex-end; padding-top: 4px; }
 
   /* ============ 自检清单 ============ */
   .check-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 40px; max-width: 980px; }
@@ -250,8 +256,9 @@
   /* ============ RESPONSIVE ============ */
   @media (max-width: 1100px) {
     .types-grid { grid-template-columns: repeat(3, 1fr); }
-    .cases-grid, .own-grid, .trend-grid, .gen-results { grid-template-columns: repeat(2, 1fr); }
+    .cases-grid, .trend-grid, .gen-results { grid-template-columns: repeat(2, 1fr); }
     .gen-form { grid-template-columns: repeat(2, 1fr); }
+    .tvc-timeline { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 760px) {
     nav { padding: 14px 0 12px 20px; flex-wrap: wrap; row-gap: 10px; background: rgba(8,8,10,.92); }
@@ -266,9 +273,10 @@
     section { padding: 100px 24px 80px; }
     .hero-inner { padding: 130px 24px 60px; }
     .hero-stats { gap: 36px; }
-    .method-grid, .types-grid, .cases-grid, .own-grid, .check-list, .trend-grid, .gen-results, .gen-form { grid-template-columns: 1fr; }
+    .method-grid, .types-grid, .cases-grid, .check-list, .trend-grid, .gen-results, .gen-form, .tvc-timeline { grid-template-columns: 1fr; }
     .trend-meta { margin-top: 0; }
     .filter-row .f-cat { width: 100%; }
+    .tvc-card { padding: 26px 22px; }
     footer { padding: 48px 24px; }
   }
 </style>
@@ -283,7 +291,7 @@
     <li><a href="#types">钩子类型</a></li>
     <li><a href="#generator">AI 生成</a></li>
     <li><a href="#cases">品牌案例</a></li>
-    <li><a href="#own">自有实拍</a></li>
+    <li><a href="#tvc">TVC 文案</a></li>
     <li><a href="index.html">返回主站</a></li>
   </ul>
 </nav>
@@ -422,13 +430,13 @@
   </div>
 </section>
 
-<!-- ============ OWN 自有实拍 ============ -->
-<section id="own" class="sec-alt">
+<!-- ============ TVC 品牌广告文案 ============ -->
+<section id="tvc" class="sec-alt">
   <div class="sec-inner">
-    <p class="sec-eyebrow">In-house Footage</p>
-    <h2 class="sec-title serif">自有信息流实拍案例</h2>
-    <p class="sec-desc">以下为本站作者实际参与拍摄的信息流素材,标注了各条素材所属类目常用的钩子打法,可对照品牌案例库复盘开头写法。</p>
-    <div class="own-grid" id="own-grid"></div>
+    <p class="sec-eyebrow">Brand TVC Copywriting</p>
+    <h2 class="sec-title serif">品牌广告 TVC 文案案例</h2>
+    <p class="sec-desc">信息流的钩子只负责 3 秒,TVC(电视广告片 / 长视频营销广告)负责把钩子拉长成一条完整的说服链路。以斐萃(FineNutri)为代表——这类靠抖音信息流起量的品牌,TVC 依然遵循"钩子先行、逐段兑现"的结构,只是把 3 秒拆成了 4 个阶段。以下按公开投放风格整理复刻,仅作学习拆解用途。</p>
+    <div class="tvc-list" id="tvc-list"></div>
   </div>
 </section>
 
@@ -591,14 +599,68 @@ const TRENDING = [
   { hook: '这件事没人愿意主动说,但我觉得你有必要知道。', type: '权威背书', reason: '"没人愿意主动说"叠加责任感人设,近期在知识科普类内容里表现稳定。' },
 ];
 
-/* ============ 数据:自有素材 ============ */
-const OWN = [
-  { file: '信息流_笛梵洗发水.mp4', title: '笛梵 · 洗发水口播', type: '痛点直击 × 身份点名', note: '洗护类目经典开法:先点名"头油/扁塌"人群,一句话说破洗后当天就塌的痛点,再进入产品演示。' },
-  { file: '信息流_防脱发膜.mp4', title: '笛梵 · 防脱发膜', type: '恐惧损失 × 数字冲击', note: '防脱类目吃"损失感":掉发量、发际线等可量化画面放在首帧,注意规避疗效承诺的合规红线。' },
-  { file: '信息流_发膜种草口播.mp4', title: '发膜 · 种草口播', type: '场景代入 × 利益承诺', note: '种草口播适合"具体场景 + 即时结果"结构:吹完头的手感、出门前五分钟,承诺越具体越可信。' },
-  { file: '信息流_笛梵发膜质地.mp4', title: '笛梵 · 发膜质地展示', type: '视觉锤 × 悬念好奇', note: '质地特写是天然的第一帧视觉锤:拉丝、涂抹、吸收的微距画面静音可懂,配一句悬念口播即可成立。' },
-  { file: '信息流_护发口播.mp4', title: '护发 · 口播', type: '反差冲突 × 权威背书', note: '"你以为的护发 vs 正确的护发"是护发内容的万能反差框架,叠加发型师/成分党身份更稳。' },
-  { file: '信息流_洗衣色母片.mp4', title: '洗衣色母片', type: '反差实验 × 恐惧损失', note: '家清品最适合实验钩:白衣服被染色的"事故画面"做首帧,色母片吸色对比即时兑现,3 秒内讲完冲突。' },
+/* ============ 数据:品牌 TVC 文案案例 ============ */
+const TVC = [
+  {
+    brand: '斐萃 FineNutri', industry: '口服美容', duration: '30s',
+    beats: [
+      { time: '0—3s', stage: '钩子', text: '"35 岁之后,你的皮肤到底在跟谁较劲?" —— 悬念好奇 × 身份点名双钩开场。' },
+      { time: '3—15s', stage: '展开', text: '实验室镜头接麦角硫因分子结构动画,文案"我们把这颗成分,喂给了没人愿意提起的年龄焦虑",用机制代替自夸。' },
+      { time: '15—25s', stage: '信任', text: '素人连续打卡对比画面叠加数据字幕"上市一年,复购超过六成",第三方检测报告一闪而过。' },
+      { time: '25—30s', stage: '收尾', text: '"抗衰这件事,不该只靠敷,该从里面开始。" 产品特写接购买浮层。' },
+    ],
+    insight: '斐萃是典型的"抖音信息流起量"品牌,一年做到 5 亿+ 销售额。它的 TVC 并不追求电影感叙事,而是把"成分机制 + 可验证数据 + 第三方背书"三段论压进 30 秒,每一步都在回应"为什么该信"这个核心疑问——这也是口服美容这类高决策门槛品类最有效的结构。',
+  },
+  {
+    brand: '蕉下', industry: '服饰鞋包', duration: '45s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '城市天际线航拍接高温柏油路实拍,文案"这座城市,有多少人正在计算今天要晒多久。"' },
+      { time: '5—25s', stage: '展开', text: '都市通勤者骑行、走路的情绪化蒙太奇,几乎不靠口播,靠画面传递"轻量化户外"的生活方式。' },
+      { time: '25—40s', stage: '信任', text: '伞骨结构与面料显微特写,一句"我们把整个夏天,缝进了这把伞里。"' },
+      { time: '40—45s', stage: '收尾', text: '品牌 slogan 收尾:"轻量化户外。"' },
+    ],
+    insight: '蕉下把功能性防晒产品拍成了生活方式大片,但前 5 秒依然遵循"钩子先行"——只是钩子从"痛点直击"换成了"情绪共鸣"。这说明黄金三秒法则在长视频 TVC 里同样成立,只是兑现的节奏被拉长了。',
+  },
+  {
+    brand: '花西子', industry: '美妆护肤', duration: '60s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '雕花口红旋转特写接水墨渲染转场,文案"每一支口红,都要先过一遍匠人的手。"' },
+      { time: '5—30s', stage: '展开', text: '苗族银饰工艺人纪录片式实拍,逐步展示雕刻工序,几乎不出现产品全貌。' },
+      { time: '30—50s', stage: '信任', text: '产品上妆特写接模特东方妆容成片展示。' },
+      { time: '50—60s', stage: '收尾', text: '品牌理念收尾:"以花养妆,循道有衡。"' },
+    ],
+    insight: '花西子的钩子不是悬念或痛点,而是"手艺人细节"本身自带的稀缺感——用工艺过程代替代言人做权威背书,是文化叙事类品牌里少见但有效的钩子变体。',
+  },
+  {
+    brand: '蜂花', industry: '个护家清', duration: '30s',
+    beats: [
+      { time: '0—3s', stage: '钩子', text: '老式包装瓶身特写接泛黄老照片转场,文案"这个味道,你妈妈可能比你还熟悉。"' },
+      { time: '3—18s', stage: '展开', text: '几代人使用场景蒙太奇,从搪瓷盆到现代浴室,旁白"三十年了,配方没换过。"' },
+      { time: '18—28s', stage: '信任', text: '直播间朴素花絮实拍,文案"没请代言人,是想把钱省给你。"' },
+      { time: '28—30s', stage: '收尾', text: '"国货,不止是怀旧。"' },
+    ],
+    insight: '蜂花的钩子公式是"怀旧共鸣 + 反差"(没请代言人反而更值得信),典型的国货逆袭叙事。前 3 秒靠视觉符号(老包装)瞬间激活集体记忆,比任何口播都快。',
+  },
+  {
+    brand: '认养一头牛', industry: '食品饮料', duration: '40s',
+    beats: [
+      { time: '0—4s', stage: '钩子', text: '航拍牧场晨雾,一头牛抬头看镜头,文案"判断一杯牛奶好不好,先别看配料表。"' },
+      { time: '4—20s', stage: '展开', text: '挤奶车间纪实镜头接冷链运输画面快剪。' },
+      { time: '20—35s', stage: '信任', text: '认养系统界面展示(用户可实时查看自己认养的牛),文案"我们把牧场,直接搬到了你手机里。"' },
+      { time: '35—40s', stage: '收尾', text: '产品特写收尾。' },
+    ],
+    insight: '这条 TVC 把"透明溯源"做成核心叙事线,钩子句式沿用了信息流里验证有效的"先别看 A,先看 B"反常识结构,再用纪实影像逐步兑现信任,是长视频版本的"钩子 + 兑现"结构示范。',
+  },
+  {
+    brand: '小米', industry: '3C 家电', duration: '50s',
+    beats: [
+      { time: '0—5s', stage: '钩子', text: '黑色背景聚光灯打在产品上,文案"1999,这个数字第一次出现的时候,没人相信它能改变行业。"' },
+      { time: '5—30s', stage: '展开', text: '发布会历史画面快闪接参数对比动画。' },
+      { time: '30—45s', stage: '信任', text: '用户真实好评弹幕滚动叠加。' },
+      { time: '45—50s', stage: '收尾', text: '品牌收尾:"死磕性价比。"' },
+    ],
+    insight: '小米的钩子是"品牌资产数字"——把一个历史锚点数字重新讲一遍就自带情怀和悬念。这类钩子只有拥有真实历史事件的品牌能用,复制门槛高,但效果稳定。',
+  },
 ];
 
 /* ============ 渲染:钩子类型 ============ */
@@ -801,19 +863,35 @@ function generateHooks() {
 }
 document.getElementById('gen-btn').addEventListener('click', generateHooks);
 
-/* ============ 渲染:自有素材 ============ */
-const ownGrid = document.getElementById('own-grid');
-OWN.forEach(o => {
-  const el = document.createElement('div');
-  el.className = 'own-card';
+/* ============ 渲染:品牌 TVC 文案案例 ============ */
+const tvcList = document.getElementById('tvc-list');
+TVC.forEach(v => {
+  const el = document.createElement('article');
+  el.className = 'tvc-card';
+  const fullScript = v.beats.map(b => `[${b.time} ${b.stage}] ${b.text}`).join('\n');
   el.innerHTML = `
-    <video src="${encodeURI(o.file)}" preload="metadata" controls playsinline></video>
-    <div class="own-body">
-      <h3>${o.title}</h3>
-      <div class="own-type">${o.type}</div>
-      <p>${o.note}</p>
-    </div>`;
-  ownGrid.appendChild(el);
+    <div class="tvc-head">
+      <div class="tvc-brand">${v.brand}</div>
+      <div class="tvc-tags"><span class="tag gold">${v.industry}</span><span class="tag">${v.duration}</span></div>
+    </div>
+    <div class="tvc-timeline">
+      ${v.beats.map(b => `
+        <div class="tvc-beat">
+          <span class="beat-time serif">${b.time}</span>
+          <div class="beat-stage">${b.stage}</div>
+          <p class="beat-text">${b.text}</p>
+        </div>`).join('')}
+    </div>
+    <p class="tvc-insight"><b>拆解</b> · ${v.insight}</p>
+    <div class="tvc-foot"><button class="copy-btn">复制脚本</button></div>`;
+  el.querySelector('.copy-btn').addEventListener('click', function () {
+    navigator.clipboard.writeText(fullScript).then(() => {
+      this.textContent = '已复制';
+      this.classList.add('done');
+      setTimeout(() => { this.textContent = '复制脚本'; this.classList.remove('done'); }, 1600);
+    });
+  });
+  tvcList.appendChild(el);
 });
 </script>
 
