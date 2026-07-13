@@ -1,0 +1,456 @@
+<template>
+  <div
+    id="root"
+    data-composition-id="04-applications"
+    data-start="0"
+    data-duration="9.067"
+    data-width="1080"
+    data-height="1920"
+  >
+    <style>
+      @font-face {
+        font-family: "Barlow";
+        src: url("assets/fonts/Barlow-700.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Barlow";
+        src: url("assets/fonts/Barlow-800.woff2") format("woff2");
+        font-weight: 800;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Barlow";
+        src: url("assets/fonts/Barlow-900.woff2") format("woff2");
+        font-weight: 900;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "IBM Plex Mono";
+        src: url("assets/fonts/IBMPlexMono-500.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      /* ---------- background (full-bleed ground on its own clip) ---------- */
+      #app04-bg {
+        position: absolute;
+        inset: 0;
+        background: #111111;
+      }
+      #app04-frame {
+        position: absolute;
+        top: 26px;
+        left: 26px;
+        right: 26px;
+        bottom: 344px; /* frame rect closes above the caption keep-out */
+        border: 1px solid #282826;
+      }
+      #app04-digits {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .app04-digit-col {
+        position: absolute;
+        top: 0;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 126px;
+        letter-spacing: 0.14em;
+        color: rgba(240, 236, 229, 0.045);
+        white-space: pre;
+      }
+
+      /* ---------- content ---------- */
+      #app04-content {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* header block — top band */
+      #app04-header {
+        position: absolute;
+        top: 150px;
+        left: 64px;
+        right: 64px;
+      }
+      #app04-kickrow {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 38px;
+      }
+      #app04-rulestub {
+        width: 36px;
+        height: 2px;
+        background: #e85d26;
+      }
+      #app04-kicker {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 500;
+        font-size: 23px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #888880;
+      }
+      #app04-h1 {
+        font-family: "Barlow", sans-serif;
+        font-weight: 700;
+        font-size: 66px;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        text-transform: lowercase;
+        color: #f0ece5;
+        max-width: 900px;
+        will-change: transform, filter, opacity;
+      }
+      #app04-h2 {
+        margin-top: 26px;
+        height: 268px; /* fixed box — discrete swap must not reflow layout */
+        font-family: "Barlow", sans-serif;
+        font-weight: 900;
+        font-size: 132px;
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+        text-transform: lowercase;
+        color: #f0ece5;
+        will-change: transform;
+        transform-origin: left center;
+      }
+      #app04-h2 .em {
+        color: #e85d26;
+      }
+
+      /* tile stack — the assembling array */
+      #app04-stack {
+        position: absolute;
+        top: 740px;
+        left: 64px;
+        width: 756px; /* ~70% width, left-leaning per broadside */
+        display: flex;
+        flex-direction: column;
+        gap: 44px;
+      }
+      .app04-tile {
+        position: relative;
+        height: 236px;
+        border: 1px solid rgba(240, 236, 229, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        padding: 0 36px;
+        box-sizing: border-box;
+        will-change: transform, opacity;
+      }
+      .app04-glyph {
+        width: 118px;
+        height: 118px;
+        flex: 0 0 118px;
+      }
+      .app04-glyph path,
+      .app04-glyph circle,
+      .app04-glyph line {
+        fill: none;
+        stroke: #f0ece5;
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .app04-tilebody {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        will-change: transform, opacity;
+      }
+      .app04-idx {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 500;
+        font-size: 21px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #505048;
+      }
+      .app04-idx b {
+        font-weight: 500;
+        color: #e85d26;
+      }
+      .app04-label {
+        font-family: "Barlow", sans-serif;
+        font-weight: 800;
+        font-size: 56px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        text-transform: lowercase;
+        color: #f0ece5;
+        white-space: nowrap;
+      }
+      #app04-kw {
+        display: inline-block;
+        transform-origin: left center;
+        will-change: transform, text-shadow;
+      }
+    </style>
+
+    <!-- background clip: ink ground + hairline frame + faint digit texture -->
+    <div id="app04-bg" class="clip" data-start="0" data-duration="9.067" data-track-index="0">
+      <div id="app04-digits"></div>
+      <div id="app04-frame"></div>
+    </div>
+
+    <!-- content clip -->
+    <div id="app04-content" class="clip" data-start="0" data-duration="9.067" data-track-index="1">
+      <div id="app04-header">
+        <div id="app04-kickrow">
+          <div id="app04-rulestub"></div>
+          <div id="app04-kicker">what it cracks</div>
+        </div>
+        <div id="app04-h1">problems that would take supercomputers</div>
+        <div id="app04-h2"></div>
+      </div>
+
+      <div id="app04-stack">
+        <div class="app04-tile" id="app04-tile1">
+          <svg class="app04-glyph" id="app04-glyph-med" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- 5-node molecule: pentagon ring bonds + node circles -->
+            <path class="app04-seg" d="M 50 18 L 82 42" />
+            <path class="app04-seg" d="M 82 42 L 70 82" />
+            <path class="app04-seg" d="M 70 82 L 30 82" />
+            <path class="app04-seg" d="M 30 82 L 18 42" />
+            <path class="app04-seg" d="M 18 42 L 50 18" />
+            <circle class="app04-seg" cx="50" cy="18" r="6.5" />
+            <circle class="app04-seg" cx="82" cy="42" r="6.5" />
+            <circle class="app04-seg" cx="70" cy="82" r="6.5" />
+            <circle class="app04-seg" cx="30" cy="82" r="6.5" />
+            <circle class="app04-seg" cx="18" cy="42" r="6.5" />
+          </svg>
+          <div class="app04-tilebody" id="app04-body1">
+            <div class="app04-idx"><b>/</b> 01</div>
+            <div class="app04-label">new medicines</div>
+          </div>
+        </div>
+
+        <div class="app04-tile" id="app04-tile2">
+          <svg class="app04-glyph" id="app04-glyph-lat" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- 3x3 lattice: 3 horizontals + 3 verticals -->
+            <path class="app04-seg" d="M 18 18 L 82 18" />
+            <path class="app04-seg" d="M 18 50 L 82 50" />
+            <path class="app04-seg" d="M 18 82 L 82 82" />
+            <path class="app04-seg" d="M 18 18 L 18 82" />
+            <path class="app04-seg" d="M 50 18 L 50 82" />
+            <path class="app04-seg" d="M 82 18 L 82 82" />
+          </svg>
+          <div class="app04-tilebody" id="app04-body2">
+            <div class="app04-idx"><b>/</b> 02</div>
+            <div class="app04-label">new materials</div>
+          </div>
+        </div>
+
+        <div class="app04-tile" id="app04-tile3">
+          <svg class="app04-glyph" id="app04-glyph-lock" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- padlock: body, shackle, keyhole -->
+            <path class="app04-seg" d="M 25 48 L 75 48 L 75 86 L 25 86 Z" />
+            <path class="app04-seg" d="M 35 48 L 35 33 A 15 15 0 0 1 65 33 L 65 48" />
+            <circle class="app04-seg" cx="50" cy="65" r="5.5" />
+          </svg>
+          <div class="app04-tilebody" id="app04-body3">
+            <div class="app04-idx"><b>/</b> 03</div>
+            <div class="app04-label"><span id="app04-kw">unbreakable</span> codes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+
+      var APP04_D = 9.067;
+
+      /* ---------- deterministic digit texture (background, index-derived) ---------- */
+      (function () {
+        var host = document.getElementById("app04-digits");
+        var COLS = 5,
+          ROWS = 15;
+        for (var c = 0; c < COLS; c++) {
+          var col = document.createElement("div");
+          col.className = "app04-digit-col";
+          col.style.left = 92 + c * 212 + "px";
+          var s = "";
+          for (var r = 0; r < ROWS; r++) {
+            s += (c * 7 + r * 5) % 3 === 0 ? "1" : "0";
+            if (r < ROWS - 1) s += "\n";
+          }
+          col.textContent = s;
+          host.appendChild(col);
+        }
+      })();
+
+      /* ---------- svg-path-draw setup: measure each segment, hide via dashoffset ---------- */
+      var app04Segs = {
+        med: Array.prototype.slice.call(document.querySelectorAll("#app04-glyph-med .app04-seg")),
+        lat: Array.prototype.slice.call(document.querySelectorAll("#app04-glyph-lat .app04-seg")),
+        lock: Array.prototype.slice.call(document.querySelectorAll("#app04-glyph-lock .app04-seg")),
+      };
+      Object.keys(app04Segs).forEach(function (k) {
+        app04Segs[k].forEach(function (p) {
+          var len = p.getTotalLength() * 1.02;
+          p.style.strokeDasharray = String(len);
+          p.style.strokeDashoffset = String(len);
+        });
+      });
+
+      /* ---------- timeline ---------- */
+      var tl = gsap.timeline({ paused: true });
+
+      // One cue grid — every reveal reads its time from here (VO-synced).
+      var CUES = {
+        chrome: 0.12, // kicker + rule stub
+        h1: 0.3, // "problems that would take supercomputers"
+        h2: 1.9, // "millions of years" hard swap
+        tile1: 3.45, // "new medicines"
+        tile2: 5.25, // "new materials"
+        tile3: 6.55, // "unbreakable codes"
+        kwStart: 7.35, // glow sweep on "unbreakable"
+        kwEnd: 8.15,
+      };
+
+      /* Scene 1 — header lands in two beats */
+
+      // chrome: rule stub wipes, kicker slides in
+      tl.fromTo(
+        "#app04-rulestub",
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: 0.4, ease: "power3.out" },
+        CUES.chrome
+      );
+      tl.fromTo(
+        "#app04-kicker",
+        { opacity: 0, x: -16 },
+        { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" },
+        CUES.chrome
+      );
+
+      // kinetic-beat-slam: scale + blur slam, long-tail settle, no overshoot
+      tl.fromTo(
+        "#app04-h1",
+        { opacity: 0, scale: 1.4, filter: "blur(14px)", transformOrigin: "left center" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.55, ease: "power4.out" },
+        CUES.h1
+      );
+
+      // discrete-text-sequence: whole-state hard swap at the threshold (instant, no tween between states)
+      var APP04_SEQ = [
+        { t: 0.0, html: "" },
+        { t: CUES.h2, html: '<span class="em">millions</span> of years' },
+      ];
+      function app04StateAt(time) {
+        for (var i = APP04_SEQ.length - 1; i >= 0; i--) {
+          if (time >= APP04_SEQ[i].t) return i;
+        }
+        return 0;
+      }
+
+      // asr-keyword-glow envelope: attack -> sustain -> release -> rest
+      var KW_ATTACK = 0.18,
+        KW_RELEASE = 0.45,
+        KW_REST = 0.28,
+        KW_MAX_BLUR = 22,
+        KW_MAX_SCALE = 0.06;
+      function app04Envelope(time, start, end) {
+        if (time < start) return 0;
+        if (time < end) return Math.min((time - start) / KW_ATTACK, 1);
+        var releaseEnd = end + KW_RELEASE;
+        if (time < releaseEnd) {
+          var decay = (time - end) / KW_RELEASE;
+          return 1 - decay * (1 - KW_REST);
+        }
+        return KW_REST;
+      }
+
+      // single linear driver runs the discrete swap AND the keyword envelope
+      var app04H2 = document.getElementById("app04-h2");
+      var app04Kw = document.getElementById("app04-kw");
+      var app04LastState = -1;
+      var app04Driver = { t: 0 };
+      tl.to(
+        app04Driver,
+        {
+          t: APP04_D,
+          duration: APP04_D,
+          ease: "none",
+          onUpdate: function () {
+            // discrete header swap — set innerHTML only when the state index changes
+            var s = app04StateAt(app04Driver.t);
+            if (s !== app04LastState) {
+              app04H2.innerHTML = APP04_SEQ[s].html;
+              app04LastState = s;
+            }
+            // keyword glow — cream glyph glow + scale, envelope-driven
+            var env = app04Envelope(app04Driver.t, CUES.kwStart, CUES.kwEnd);
+            var blur = KW_MAX_BLUR * env;
+            var alpha = 0.15 + env * 0.75;
+            app04Kw.style.textShadow = "0 0 " + blur + "px rgba(240,236,229," + alpha + ")";
+            app04Kw.style.transform = "scale(" + (1 + KW_MAX_SCALE * env) + ")";
+          },
+        },
+        0
+      );
+
+      // the swap is the beat: a short settle on the freshly-swapped line (empty before the cue)
+      tl.fromTo(
+        "#app04-h2",
+        { scale: 1.05, y: 12 },
+        { scale: 1, y: 0, duration: 0.4, ease: "power3.out", immediateRender: false },
+        CUES.h2
+      );
+
+      /* Scene 2 — grid-card-assemble cascade: one tile per spoken cue, sliding up into its slot */
+
+      var app04Tiles = [
+        { tile: "#app04-tile1", body: "#app04-body1", segs: app04Segs.med, cue: CUES.tile1 },
+        { tile: "#app04-tile2", body: "#app04-body2", segs: app04Segs.lat, cue: CUES.tile2 },
+        { tile: "#app04-tile3", body: "#app04-body3", segs: app04Segs.lock, cue: CUES.tile3 },
+      ];
+
+      app04Tiles.forEach(function (item) {
+        // tile slides a short distance directly into its slot — long-tail settle, no bounce
+        tl.fromTo(
+          item.tile,
+          { opacity: 0, y: 110 },
+          { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
+          item.cue
+        );
+        // label + index follow a beat behind
+        tl.fromTo(
+          item.body,
+          { opacity: 0, x: 26 },
+          { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" },
+          item.cue + 0.12
+        );
+        // svg-path-draw: segments trace in, staggered ~75% overlap so it reads continuous
+        item.segs.forEach(function (seg, i) {
+          tl.to(
+            seg,
+            { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" },
+            item.cue + 0.18 + i * 0.09
+          );
+        });
+      });
+
+      /* Scene 3 — completed stack holds; the keyword glow (driver above) sweeps "unbreakable";
+         stillness to the cut — no exit (the root transition is the exit). */
+
+      window.__timelines["04-applications"] = tl;
+    </script>
+  </div>
+</template>

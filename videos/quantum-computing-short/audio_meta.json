@@ -1,0 +1,735 @@
+{
+  "bgm": null,
+  "voices": [
+    {
+      "frame": 1,
+      "path": "assets/voice/01.wav",
+      "duration_s": 6.165,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Your",
+          "start": 0.12,
+          "end": 0.372
+        },
+        {
+          "id": "w1",
+          "text": "computer",
+          "start": 0.428,
+          "end": 0.933
+        },
+        {
+          "id": "w2",
+          "text": "thinks",
+          "start": 1.043,
+          "end": 1.422
+        },
+        {
+          "id": "w3",
+          "text": "in",
+          "start": 1.505,
+          "end": 1.631
+        },
+        {
+          "id": "w4",
+          "text": "zeros",
+          "start": 1.659,
+          "end": 1.974
+        },
+        {
+          "id": "w5",
+          "text": "and",
+          "start": 2.044,
+          "end": 2.233
+        },
+        {
+          "id": "w6",
+          "text": "ones.",
+          "start": 2.275,
+          "end": 2.685
+        },
+        {
+          "id": "w7",
+          "text": "Quantum",
+          "start": 2.775,
+          "end": 3.216
+        },
+        {
+          "id": "w8",
+          "text": "computers",
+          "start": 3.313,
+          "end": 3.881
+        },
+        {
+          "id": "w9",
+          "text": "think",
+          "start": 4.006,
+          "end": 4.321
+        },
+        {
+          "id": "w10",
+          "text": "in",
+          "start": 4.391,
+          "end": 4.517
+        },
+        {
+          "id": "w11",
+          "text": "both",
+          "start": 4.545,
+          "end": 4.797
+        },
+        {
+          "id": "w12",
+          "text": "at",
+          "start": 4.852,
+          "end": 4.978
+        },
+        {
+          "id": "w13",
+          "text": "the",
+          "start": 5.006,
+          "end": 5.195
+        },
+        {
+          "id": "w14",
+          "text": "same",
+          "start": 5.237,
+          "end": 5.489
+        },
+        {
+          "id": "w15",
+          "text": "time.",
+          "start": 5.545,
+          "end": 5.955
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "path": "assets/voice/02.wav",
+      "duration_s": 8.448,
+      "words": [
+        {
+          "id": "w0",
+          "text": "A",
+          "start": 0.12,
+          "end": 0.254
+        },
+        {
+          "id": "w1",
+          "text": "normal",
+          "start": 0.283,
+          "end": 0.685
+        },
+        {
+          "id": "w2",
+          "text": "bit",
+          "start": 0.773,
+          "end": 0.974
+        },
+        {
+          "id": "w3",
+          "text": "is",
+          "start": 1.018,
+          "end": 1.152
+        },
+        {
+          "id": "w4",
+          "text": "a",
+          "start": 1.182,
+          "end": 1.316
+        },
+        {
+          "id": "w5",
+          "text": "coin",
+          "start": 1.345,
+          "end": 1.613
+        },
+        {
+          "id": "w6",
+          "text": "lying",
+          "start": 1.672,
+          "end": 2.007
+        },
+        {
+          "id": "w7",
+          "text": "flat",
+          "start": 2.08,
+          "end": 2.348
+        },
+        {
+          "id": "w8",
+          "text": "heads",
+          "start": 2.407,
+          "end": 2.742
+        },
+        {
+          "id": "w9",
+          "text": "or",
+          "start": 2.815,
+          "end": 2.949
+        },
+        {
+          "id": "w10",
+          "text": "tails.",
+          "start": 2.979,
+          "end": 3.481
+        },
+        {
+          "id": "w11",
+          "text": "A",
+          "start": 3.591,
+          "end": 3.725
+        },
+        {
+          "id": "w12",
+          "text": "qubit",
+          "start": 3.754,
+          "end": 4.089
+        },
+        {
+          "id": "w13",
+          "text": "is",
+          "start": 4.163,
+          "end": 4.297
+        },
+        {
+          "id": "w14",
+          "text": "that",
+          "start": 4.326,
+          "end": 4.594
+        },
+        {
+          "id": "w15",
+          "text": "coin",
+          "start": 4.653,
+          "end": 4.921
+        },
+        {
+          "id": "w16",
+          "text": "spinning",
+          "start": 4.979,
+          "end": 5.515
+        },
+        {
+          "id": "w17",
+          "text": "both",
+          "start": 5.633,
+          "end": 5.901
+        },
+        {
+          "id": "w18",
+          "text": "at",
+          "start": 5.96,
+          "end": 6.093
+        },
+        {
+          "id": "w19",
+          "text": "once.",
+          "start": 6.123,
+          "end": 6.558
+        },
+        {
+          "id": "w20",
+          "text": "That's",
+          "start": 6.654,
+          "end": 6.989
+        },
+        {
+          "id": "w21",
+          "text": "superposition.",
+          "start": 7.062,
+          "end": 8.1
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "path": "assets/voice/03.wav",
+      "duration_s": 9.771,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Every",
+          "start": 0.12,
+          "end": 0.435
+        },
+        {
+          "id": "w1",
+          "text": "qubit",
+          "start": 0.504,
+          "end": 0.819
+        },
+        {
+          "id": "w2",
+          "text": "you",
+          "start": 0.889,
+          "end": 1.078
+        },
+        {
+          "id": "w3",
+          "text": "add",
+          "start": 1.119,
+          "end": 1.308
+        },
+        {
+          "id": "w4",
+          "text": "doubles",
+          "start": 1.35,
+          "end": 1.791
+        },
+        {
+          "id": "w5",
+          "text": "the",
+          "start": 1.888,
+          "end": 2.077
+        },
+        {
+          "id": "w6",
+          "text": "power.",
+          "start": 2.118,
+          "end": 2.591
+        },
+        {
+          "id": "w7",
+          "text": "Ten",
+          "start": 2.695,
+          "end": 2.884
+        },
+        {
+          "id": "w8",
+          "text": "qubits",
+          "start": 2.925,
+          "end": 3.304
+        },
+        {
+          "id": "w9",
+          "text": "a",
+          "start": 3.387,
+          "end": 3.513
+        },
+        {
+          "id": "w10",
+          "text": "thousand",
+          "start": 3.54,
+          "end": 4.045
+        },
+        {
+          "id": "w11",
+          "text": "states.",
+          "start": 4.155,
+          "end": 4.691
+        },
+        {
+          "id": "w12",
+          "text": "Three",
+          "start": 4.809,
+          "end": 5.124
+        },
+        {
+          "id": "w13",
+          "text": "hundred?",
+          "start": 5.193,
+          "end": 5.792
+        },
+        {
+          "id": "w14",
+          "text": "More",
+          "start": 5.923,
+          "end": 6.175
+        },
+        {
+          "id": "w15",
+          "text": "states",
+          "start": 6.231,
+          "end": 6.609
+        },
+        {
+          "id": "w16",
+          "text": "than",
+          "start": 6.692,
+          "end": 6.944
+        },
+        {
+          "id": "w17",
+          "text": "there",
+          "start": 6.999,
+          "end": 7.314
+        },
+        {
+          "id": "w18",
+          "text": "are",
+          "start": 7.384,
+          "end": 7.573
+        },
+        {
+          "id": "w19",
+          "text": "atoms",
+          "start": 7.614,
+          "end": 7.929
+        },
+        {
+          "id": "w20",
+          "text": "in",
+          "start": 7.998,
+          "end": 8.125
+        },
+        {
+          "id": "w21",
+          "text": "the",
+          "start": 8.152,
+          "end": 8.341
+        },
+        {
+          "id": "w22",
+          "text": "entire",
+          "start": 8.383,
+          "end": 8.761
+        },
+        {
+          "id": "w23",
+          "text": "universe.",
+          "start": 8.844,
+          "end": 9.506
+        }
+      ]
+    },
+    {
+      "frame": 4,
+      "path": "assets/voice/04.wav",
+      "duration_s": 9.067,
+      "words": [
+        {
+          "id": "w0",
+          "text": "That",
+          "start": 0.12,
+          "end": 0.357
+        },
+        {
+          "id": "w1",
+          "text": "could",
+          "start": 0.409,
+          "end": 0.706
+        },
+        {
+          "id": "w2",
+          "text": "crack",
+          "start": 0.771,
+          "end": 1.068
+        },
+        {
+          "id": "w3",
+          "text": "problems",
+          "start": 1.133,
+          "end": 1.608
+        },
+        {
+          "id": "w4",
+          "text": "supercomputers",
+          "start": 1.712,
+          "end": 2.542
+        },
+        {
+          "id": "w5",
+          "text": "would",
+          "start": 2.725,
+          "end": 3.021
+        },
+        {
+          "id": "w6",
+          "text": "need",
+          "start": 3.086,
+          "end": 3.324
+        },
+        {
+          "id": "w7",
+          "text": "millions",
+          "start": 3.376,
+          "end": 3.85
+        },
+        {
+          "id": "w8",
+          "text": "of",
+          "start": 3.955,
+          "end": 4.073
+        },
+        {
+          "id": "w9",
+          "text": "years",
+          "start": 4.099,
+          "end": 4.396
+        },
+        {
+          "id": "w10",
+          "text": "for.",
+          "start": 4.461,
+          "end": 4.787
+        },
+        {
+          "id": "w11",
+          "text": "Designing",
+          "start": 4.859,
+          "end": 5.393
+        },
+        {
+          "id": "w12",
+          "text": "new",
+          "start": 5.51,
+          "end": 5.688
+        },
+        {
+          "id": "w13",
+          "text": "medicines.",
+          "start": 5.727,
+          "end": 6.41
+        },
+        {
+          "id": "w14",
+          "text": "New",
+          "start": 6.559,
+          "end": 6.737
+        },
+        {
+          "id": "w15",
+          "text": "materials.",
+          "start": 6.776,
+          "end": 7.459
+        },
+        {
+          "id": "w16",
+          "text": "Unbreakable",
+          "start": 7.608,
+          "end": 8.261
+        },
+        {
+          "id": "w17",
+          "text": "codes.",
+          "start": 8.404,
+          "end": 8.849
+        }
+      ]
+    },
+    {
+      "frame": 5,
+      "path": "assets/voice/05.wav",
+      "duration_s": 10.155,
+      "words": [
+        {
+          "id": "w0",
+          "text": "The",
+          "start": 0.12,
+          "end": 0.327
+        },
+        {
+          "id": "w1",
+          "text": "catch?",
+          "start": 0.372,
+          "end": 0.889
+        },
+        {
+          "id": "w2",
+          "text": "Qubits",
+          "start": 1.002,
+          "end": 1.416
+        },
+        {
+          "id": "w3",
+          "text": "are",
+          "start": 1.506,
+          "end": 1.713
+        },
+        {
+          "id": "w4",
+          "text": "so",
+          "start": 1.758,
+          "end": 1.896
+        },
+        {
+          "id": "w5",
+          "text": "fragile,",
+          "start": 1.927,
+          "end": 2.512
+        },
+        {
+          "id": "w6",
+          "text": "one",
+          "start": 2.641,
+          "end": 2.847
+        },
+        {
+          "id": "w7",
+          "text": "tiny",
+          "start": 2.893,
+          "end": 3.168
+        },
+        {
+          "id": "w8",
+          "text": "vibration",
+          "start": 3.229,
+          "end": 3.849
+        },
+        {
+          "id": "w9",
+          "text": "destroys",
+          "start": 3.985,
+          "end": 4.536
+        },
+        {
+          "id": "w10",
+          "text": "the",
+          "start": 4.657,
+          "end": 4.864
+        },
+        {
+          "id": "w11",
+          "text": "magic.",
+          "start": 4.909,
+          "end": 5.426
+        },
+        {
+          "id": "w12",
+          "text": "So",
+          "start": 5.54,
+          "end": 5.677
+        },
+        {
+          "id": "w13",
+          "text": "quantum",
+          "start": 5.708,
+          "end": 6.19
+        },
+        {
+          "id": "w14",
+          "text": "computers",
+          "start": 6.296,
+          "end": 6.916
+        },
+        {
+          "id": "w15",
+          "text": "live",
+          "start": 7.052,
+          "end": 7.328
+        },
+        {
+          "id": "w16",
+          "text": "in",
+          "start": 7.388,
+          "end": 7.526
+        },
+        {
+          "id": "w17",
+          "text": "freezers",
+          "start": 7.556,
+          "end": 8.107
+        },
+        {
+          "id": "w18",
+          "text": "colder",
+          "start": 8.228,
+          "end": 8.642
+        },
+        {
+          "id": "w19",
+          "text": "than",
+          "start": 8.733,
+          "end": 9.008
+        },
+        {
+          "id": "w20",
+          "text": "deep",
+          "start": 9.069,
+          "end": 9.344
+        },
+        {
+          "id": "w21",
+          "text": "space.",
+          "start": 9.405,
+          "end": 9.922
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "path": "assets/voice/06.wav",
+      "duration_s": 4.267,
+      "words": [
+        {
+          "id": "w0",
+          "text": "The",
+          "start": 0.12,
+          "end": 0.282
+        },
+        {
+          "id": "w1",
+          "text": "next",
+          "start": 0.318,
+          "end": 0.535
+        },
+        {
+          "id": "w2",
+          "text": "computing",
+          "start": 0.582,
+          "end": 1.069
+        },
+        {
+          "id": "w3",
+          "text": "revolution",
+          "start": 1.176,
+          "end": 1.718
+        },
+        {
+          "id": "w4",
+          "text": "isn't",
+          "start": 1.836,
+          "end": 2.053
+        },
+        {
+          "id": "w5",
+          "text": "coming.",
+          "start": 2.1,
+          "end": 2.561
+        },
+        {
+          "id": "w6",
+          "text": "It's",
+          "start": 2.662,
+          "end": 2.824
+        },
+        {
+          "id": "w7",
+          "text": "already",
+          "start": 2.86,
+          "end": 3.239
+        },
+        {
+          "id": "w8",
+          "text": "being",
+          "start": 3.322,
+          "end": 3.592
+        },
+        {
+          "id": "w9",
+          "text": "built.",
+          "start": 3.652,
+          "end": 4.058
+        }
+      ]
+    }
+  ],
+  "sfx": [
+    {
+      "frame": 3,
+      "file": "assets/sfx/riser.mp3",
+      "offset_s": 0,
+      "duration_s": 10.03,
+      "volume": 0.35
+    },
+    {
+      "frame": 5,
+      "file": "assets/sfx/riser.mp3",
+      "offset_s": 0,
+      "duration_s": 10.03,
+      "volume": 0.35
+    }
+  ]
+}

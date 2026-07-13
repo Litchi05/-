@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 3 — Exponential explosion · dataviz-countup (Adapt) · 1080x1920 · 9.771s -->
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Barlow";
+          src: url("assets/fonts/Barlow-900.woff2") format("woff2");
+          font-weight: 900;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Barlow";
+          src: url("assets/fonts/Barlow-700.woff2") format("woff2");
+          font-weight: 700;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "IBM Plex Mono";
+          src: url("assets/fonts/IBMPlexMono-500.woff2") format("woff2");
+          font-weight: 500;
+          font-style: normal;
+        }
+
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+        }
+
+        .clip {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* ── background: ink ground + deterministic dot starfield ── */
+        #exp3-bg {
+          background: #111111;
+        }
+        #exp3-stars {
+          position: absolute;
+          inset: 0;
+        }
+        .exp3-star {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: #f0ece5;
+          will-change: transform, opacity;
+        }
+
+        /* ── content wrapper (zoom-to-target scales this) ── */
+        #exp3-world {
+          position: absolute;
+          inset: 0;
+          transform-origin: 540px 850px;
+          will-change: transform;
+        }
+
+        /* ladder rail — upper band, full-width strip rows */
+        #exp3-ladder {
+          position: absolute;
+          top: 170px;
+          left: 64px;
+          right: 64px;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 40px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #888880;
+        }
+        .exp3-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 22px 8px;
+          border-top: 1px solid #282826;
+          will-change: transform, opacity;
+        }
+        .exp3-row .n {
+          color: #f0ece5;
+        }
+
+        /* hero counter — center, y≈806 */
+        #exp3-counterwrap {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 620px;
+          height: 460px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+        #exp3-counter {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 160px;
+          line-height: 1.0;
+          letter-spacing: -0.04em;
+          color: #f0ece5;
+          font-variant-numeric: tabular-nums;
+          will-change: transform, opacity;
+        }
+        #exp3-counterlabel {
+          margin-top: 20px;
+          font-family: "IBM Plex Mono", monospace;
+          font-weight: 500;
+          font-size: 34px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #888880;
+          will-change: opacity;
+        }
+        #exp3-hero {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 620px;
+          height: 460px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          will-change: transform, opacity;
+        }
+        #exp3-hero .big {
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 210px;
+          line-height: 0.92;
+          letter-spacing: -0.04em;
+          text-transform: lowercase;
+          color: #e85d26;
+        }
+
+        /* payoff line — beneath the hero */
+        #exp3-payoff {
+          position: absolute;
+          left: 80px;
+          right: 80px;
+          top: 1160px;
+          text-align: center;
+          font-family: "Barlow", sans-serif;
+          font-weight: 900;
+          font-size: 104px;
+          line-height: 1.0;
+          letter-spacing: -0.03em;
+          text-transform: lowercase;
+          color: #f0ece5;
+        }
+        .exp3-payword {
+          display: inline-block;
+          margin: 0 14px;
+          will-change: transform, opacity;
+        }
+        .exp3-payword.em {
+          color: #e85d26;
+        }
+      </style>
+
+      <div id="root" data-composition-id="03-exponential" data-width="1080" data-height="1920">
+        <!-- full-bleed ground on its own clip -->
+        <div id="exp3-bg" class="clip" data-start="0" data-duration="9.771" data-track-index="0">
+          <div id="exp3-stars"></div>
+        </div>
+
+        <div id="exp3-content" class="clip" data-start="0" data-duration="9.771" data-track-index="1">
+          <div id="exp3-world">
+            <div id="exp3-ladder">
+              <div class="exp3-row" id="exp3-r1"><span>1 qubit</span><span class="n">2 states</span></div>
+              <div class="exp3-row" id="exp3-r2"><span>2 qubits</span><span class="n">4 states</span></div>
+              <div class="exp3-row" id="exp3-r3"><span>10 qubits</span><span class="n">1,024 states</span></div>
+            </div>
+
+            <div id="exp3-counterwrap" data-layout-allow-overlap>
+              <div id="exp3-counter">2</div>
+              <div id="exp3-counterlabel">states at once</div>
+            </div>
+
+            <div id="exp3-hero" data-layout-allow-overlap>
+              <div class="big">300 qubits</div>
+            </div>
+
+            <div id="exp3-payoff">
+              <span class="exp3-payword">more</span><span class="exp3-payword">states</span><span class="exp3-payword">than</span><br />
+              <span class="exp3-payword em">atoms</span><span class="exp3-payword">in</span><span class="exp3-payword">the</span><span class="exp3-payword">universe</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+
+        // ── deterministic starfield (index-derived positions; no randomness) ──
+        (function () {
+          var host = document.getElementById("exp3-stars");
+          var N = 64;
+          for (var i = 0; i < N; i++) {
+            var d = document.createElement("div");
+            d.className = "exp3-star";
+            // golden-angle spiral around (540, 900) — deterministic, evenly scattered
+            var a = i * 2.39996;
+            var r = 90 + 12.5 * Math.sqrt(i) * 8;
+            var x = 540 + Math.cos(a) * r * 0.62;
+            var y = 900 + Math.sin(a) * r * 0.92;
+            if (y > 1560) y = 1560 - (y - 1560) * 0.4; // keep out of the caption band
+            if (y < 60) y = 60 + (60 - y) * 0.5;
+            d.style.left = Math.round(Math.max(16, Math.min(1060, x))) + "px";
+            d.style.top = Math.round(y) + "px";
+            d.setAttribute("data-i", i);
+            host.appendChild(d);
+          }
+        })();
+
+        var tl = gsap.timeline({ paused: true });
+        var D = 9.771;
+
+        // ── Scene 1 (0.0–2.7s) — "every qubit you add doubles the power" ──
+        // first ladder row reveals, hero counter fades in at "2", doubles to "4"
+        tl.fromTo(
+          "#exp3-r1",
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "power4.out" },
+          0.5,
+        );
+        tl.fromTo(
+          "#exp3-counter",
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+          0.9,
+        );
+        tl.fromTo(
+          "#exp3-counterlabel",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: "power2.out" },
+          1.1,
+        );
+        tl.fromTo(
+          "#exp3-r2",
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" },
+          1.75,
+        );
+
+        // counting-dynamic-scale: value + font-size grow together
+        var counterEl = document.getElementById("exp3-counter");
+        var val = { v: 2 };
+        function renderVal() {
+          counterEl.textContent = Math.round(val.v).toLocaleString("en-US");
+        }
+        tl.to(
+          val,
+          { v: 4, duration: 0.45, ease: "power2.out", onUpdate: renderVal },
+          1.8,
+        );
+
+        // ── Scene 2 (2.7–5.6s) — "ten qubits — a thousand states" ──
+        tl.fromTo(
+          "#exp3-r3",
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" },
+          2.95,
+        );
+        tl.to(
+          val,
+          { v: 1024, duration: 1.35, ease: "power3.out", onUpdate: renderVal },
+          3.1,
+        );
+        tl.fromTo(
+          "#exp3-counter",
+          { fontSize: 160 },
+          { fontSize: 236, duration: 1.35, ease: "power3.out" },
+          3.1,
+        );
+
+        // sparse deterministic scatter-in begins (first half of the stars)
+        var stars = document.querySelectorAll(".exp3-star");
+        stars.forEach(function (s, i) {
+          var phase = i < 32 ? 3.2 + (i % 8) * 0.16 : 6.05 + (i % 12) * 0.09;
+          var op = 0.1 + ((i * 7) % 5) * 0.05;
+          tl.fromTo(
+            s,
+            { opacity: 0, scale: 0.4 },
+            { opacity: op, scale: 1, duration: 0.6, ease: "power2.out" },
+            phase,
+          );
+        });
+
+        // ── Scene 3 (5.6–9.771s) — "three hundred?" → the hero stat + payoff ──
+        // zoom-to-target tightens the world on the counter as it hands off
+        tl.to("#exp3-world", { scale: 1.06, duration: 0.9, ease: "power2.inOut" }, 4.85);
+
+        // hard-cut swap: the counting number clears, "300 qubits" slams in fire-orange
+        tl.set("#exp3-counterwrap", { opacity: 0 }, 5.35);
+        tl.fromTo(
+          "#exp3-hero",
+          { opacity: 0, scale: 1.3 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: "power4.out" },
+          5.38,
+        );
+        tl.fromTo("#exp3-hero", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+
+        // payoff line slams word-by-word on its spoken cues
+        var payWords = document.querySelectorAll(".exp3-payword");
+        payWords.forEach(function (w, i) {
+          tl.fromTo(
+            w,
+            { y: 60, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.42, ease: "power4.out" },
+            6.3 + i * 0.28,
+          );
+        });
+
+        // world settles back to rest as the starfield completes; then hold, still
+        tl.to("#exp3-world", { scale: 1.0, duration: 1.2, ease: "power2.out" }, 6.4);
+
+        window.__timelines["03-exponential"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
